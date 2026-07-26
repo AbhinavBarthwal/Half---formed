@@ -1,0 +1,95 @@
+/* =========================================
+   Global Color Tokens (colors.css)
+   Modify these to change the app's theme
+   ========================================= */
+
+:root {
+  /* DARK MODE (Default Palette) */
+  --bg-primary: #0a1118;
+  
+  /* Mesh Background Gradients */
+  --bg-mesh-1: rgba(13, 27, 42, 0.92);
+  --bg-mesh-2: rgba(27, 38, 59, 0.45);
+  --bg-mesh-3: rgba(65, 90, 119, 0.25);
+  
+  /* Glass Panels (Transparency) */
+  --glass-bg-light: rgba(27, 38, 59, 0.65);
+  --glass-bg-medium: rgba(27, 38, 59, 0.85);
+  --glass-bg-heavy: rgba(13, 27, 42, 0.94);
+  --glass-bg-solid: rgba(10, 17, 24, 0.98);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  
+  /* Text & Shadow */
+  --text-primary: #ffffff;
+  --text-placeholder: rgba(203, 213, 225, 0.8);
+  --shadow-base: rgba(0, 0, 0, 0.70);
+  
+  /* Inputs */
+  --input-focus-border: #ffffff;
+  --input-focus-ring: rgba(255, 255, 255, 0.15);
+  
+  /* Shared Tailwind Palettes for Dark Mode */
+  --color-navy-950: #060d14;
+  --color-navy-900: #0d1b2a;
+  --color-navy-800: #1b263b;
+  --color-navy-700: #415a77;
+  --color-navy-400: #778da9;
+  --color-navy-300: #a3b1c6;
+  --color-navy-200: #c5d1e0;
+  --color-navy-100: #f0f4f8;
+}
+
+html.light {
+  /* LIGHT MODE (Override Palette) */
+  --bg-primary: #fdf0d5;
+  
+  /* Mesh Background Gradients */
+  --bg-mesh-1: rgba(253, 240, 213, 0.98);
+  --bg-mesh-2: rgba(230, 210, 170, 0.45);
+  --bg-mesh-3: rgba(200, 180, 140, 0.30);
+  
+  /* Glass Panels (Transparency) */
+  --glass-bg-light: rgba(255, 255, 255, 0.88);
+  --glass-bg-medium: rgba(255, 255, 255, 0.95);
+  --glass-bg-heavy: rgba(253, 240, 213, 0.96);
+  --glass-bg-solid: rgba(253, 240, 213, 0.98);
+  --glass-border: rgba(0, 0, 0, 0.18);
+  
+  /* Text & Shadow */
+  --text-primary: #000000;
+  --text-placeholder: rgba(55, 65, 81, 0.8);
+  --shadow-base: rgba(0, 0, 0, 0.14);
+  
+  /* Inputs */
+  --input-focus-border: #000000;
+  --input-focus-ring: rgba(0, 0, 0, 0.15);
+  
+  /* Shared Tailwind Palettes for Light Mode */
+  --color-crimson-950: #450000;
+  --color-crimson-900: #780000;
+  --color-crimson-800: #900c15;
+  --color-crimson-700: #c1121f;
+  --color-crimson-600: #d91f2c;
+  --color-crimson-400: #e63946;
+  --color-crimson-200: #f8adab;
+  --color-crimson-100: #fdf0d5;
+  
+  --color-cream-900: #2c2211;
+  --color-cream-800: #4a3b22;
+  --color-cream-700: #755c36;
+  --color-cream-400: #b89a6c;
+  --color-cream-200: #eedcb8;
+  --color-cream-100: #fdf0d5;
+  --color-cream-50:  #fff9ee;
+  
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50:  #f8fafc;
+}
