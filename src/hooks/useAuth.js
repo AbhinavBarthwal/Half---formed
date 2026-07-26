@@ -12,13 +12,13 @@ export function useAuth() {
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Error fetching profile:', error.message);
-      setProfile(null);
+      setProfile({ id: userId, handle: `user_${userId.substring(0, 6)}` });
     } else {
-      setProfile(data);
+      setProfile(data || { id: userId, handle: `user_${userId.substring(0, 6)}` });
     }
   }, []);
 
@@ -50,7 +50,13 @@ export function useAuth() {
 
   // Magic link sign-in
   const signInWithEmail = async (email) => {
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const redirectUrl = typeof window !== 'undefined' ? window.location.origin : undefined;
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: redirectUrl,
+      },
+    });
     if (error) throw error;
   };
 
@@ -58,15 +64,17 @@ export function useAuth() {
   const updateProfile = async ({ handle, displayName, avatarUrl }) => {
     if (!session?.user) throw new Error('Not authenticated');
 
-    const updates = {};
+    const updates = {
+      id: session.user.id,
+      updated_at: new Date().toISOString(),
+    };
     if (handle) updates.handle = handle;
     if (displayName !== undefined) updates.display_name = displayName;
     if (avatarUrl !== undefined) updates.avatar_url = avatarUrl;
 
     const { data, error } = await supabase
       .from('profiles')
-      .update(updates)
-      .eq('id', session.user.id)
+      .upsert(updates)
       .select()
       .single();
 
