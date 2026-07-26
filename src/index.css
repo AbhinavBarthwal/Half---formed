@@ -23,7 +23,7 @@
   }
 
   /* Default text colors for theme */
-  html.light, html.dark {
+  html, body {
     color: var(--text-primary);
   }
 
@@ -31,12 +31,11 @@
     font-size: 16px !important;
   }
 
-  html.light input, html.light textarea,
-  html.dark input, html.dark textarea {
+  input, textarea {
     color: var(--text-primary) !important;
   }
 
-  html.light ::placeholder, html.dark ::placeholder {
+  ::placeholder {
     color: var(--text-placeholder) !important;
     opacity: 0.8 !important;
   }

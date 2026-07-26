@@ -12,7 +12,6 @@ import ImageArtLab from './components/ImageArtLab.jsx';
 import ThoughtsGallery from './components/ThoughtsGallery.jsx';
 import ArticlesView from './views/ArticlesView.jsx';
 import TopicManagerModal from './components/TopicManagerModal.jsx';
-import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import { useAuth } from './hooks/useAuth.js';
 import { Loader2 } from 'lucide-react';
 
@@ -208,8 +207,6 @@ function MainAppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <MainAppContent />
-    </ThemeProvider>
+    <MainAppContent />
   );
 }

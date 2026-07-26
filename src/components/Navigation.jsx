@@ -1,10 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Compass, Images, BookOpen, Library, Plus, Sparkles, User, Sun, Moon, Tag } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext.jsx';
+import { Compass, Images, BookOpen, Library, Plus, Sparkles, User, Tag } from 'lucide-react';
 
 export default function Navigation({ onNavigate, currentView, user, isAuthenticated, onOpenArtLab, onOpenTopicManager }) {
-  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { key: 'discover', label: 'Discover', icon: Compass },
@@ -92,14 +90,7 @@ export default function Navigation({ onNavigate, currentView, user, isAuthentica
             <Tag size={13} /> <span className="hidden sm:inline">Verticals</span>
           </button>
 
-          {/* Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-black dark:text-white bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 transition-all border border-black/10 dark:border-white/10 interactive-scale"
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-          >
-            {theme === 'dark' ? <Sun size={15} className="text-amber-300" /> : <Moon size={15} className="text-black" />}
-          </button>
+
 
           {/* Art Lab Button */}
           <button
