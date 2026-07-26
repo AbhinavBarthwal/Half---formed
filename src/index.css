@@ -3,41 +3,93 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Mode Default - Pure High Contrast White on Dark Navy */
   --hf-bg-base: #0a1118;
   --hf-bg-mesh-1: rgba(13, 27, 42, 0.90);
   --hf-bg-mesh-2: rgba(27, 38, 59, 0.40);
   --hf-bg-mesh-3: rgba(65, 90, 119, 0.25);
   --hf-text-primary: #ffffff;
-  --hf-text-secondary: #e2e8f0;
-  --hf-text-muted: #cbd5e1;
-  --hf-accent: #ffffff;
-  --hf-accent-glow: rgba(255, 255, 255, 0.25);
+  --hf-text-secondary: #f1f5f9;
   --hf-glass-border: rgba(255, 255, 255, 0.15);
   --hf-glass-bg-1: rgba(27, 38, 59, 0.60);
-  --hf-glass-bg-2: rgba(27, 38, 59, 0.80);
-  --hf-glass-bg-3: rgba(13, 27, 42, 0.90);
+  --hf-glass-bg-2: rgba(27, 38, 59, 0.82);
+  --hf-glass-bg-3: rgba(13, 27, 42, 0.92);
   --hf-glass-bg-4: rgba(10, 17, 24, 0.96);
   --hf-shadow: rgba(0, 0, 0, 0.70);
 }
 
 html.light {
-  /* Light Mode Palette - Pure High Contrast Black on Light Cream */
   --hf-bg-base: #fdf0d5;
   --hf-bg-mesh-1: rgba(253, 240, 213, 0.98);
   --hf-bg-mesh-2: rgba(230, 210, 170, 0.40);
   --hf-bg-mesh-3: rgba(200, 180, 140, 0.25);
   --hf-text-primary: #000000;
   --hf-text-secondary: #111827;
-  --hf-text-muted: #374151;
-  --hf-accent: #000000;
-  --hf-accent-glow: rgba(0, 0, 0, 0.20);
   --hf-glass-border: rgba(0, 0, 0, 0.15);
-  --hf-glass-bg-1: rgba(255, 255, 255, 0.80);
-  --hf-glass-bg-2: rgba(255, 255, 255, 0.92);
+  --hf-glass-bg-1: rgba(255, 255, 255, 0.85);
+  --hf-glass-bg-2: rgba(255, 255, 255, 0.94);
   --hf-glass-bg-3: rgba(253, 240, 213, 0.96);
   --hf-glass-bg-4: rgba(253, 240, 213, 0.98);
   --hf-shadow: rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================================
+   BULLETPROOF 100% LEGIBILITY RULE
+   ============================================================ */
+
+/* LIGHT MODE: Force EVERY SINGLE text element to PURE BLACK (#000000) */
+html.light,
+html.light body,
+html.light h1, 
+html.light h2, 
+html.light h3, 
+html.light h4, 
+html.light h5, 
+html.light h6,
+html.light p, 
+html.light span, 
+html.light div, 
+html.light a, 
+html.light label, 
+html.light input,
+html.light textarea {
+  color: #000000 !important;
+}
+
+/* LIGHT MODE EXCEPTION: Elements with filled dark background (.bg-black, .bg-crimson-700) get pure white text */
+html.light .bg-black,
+html.light .bg-black *,
+html.light .bg-crimson-700,
+html.light .bg-crimson-700 *,
+html.light [class*="bg-black"],
+html.light [class*="bg-black"] * {
+  color: #ffffff !important;
+}
+
+/* DARK MODE: Force EVERY SINGLE text element to PURE WHITE (#ffffff) */
+html.dark,
+html.dark body,
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark a,
+html.dark label,
+html.dark input,
+html.dark textarea {
+  color: #ffffff !important;
+}
+
+/* DARK MODE EXCEPTION: Elements with filled light background (.bg-white) get pure black text */
+html.dark .bg-white,
+html.dark .bg-white *,
+html.dark [class*="bg-white"],
+html.dark [class*="bg-white"] * {
+  color: #000000 !important;
 }
 
 @layer base {
@@ -55,24 +107,22 @@ html.light {
       radial-gradient(circle at 50% 50%, var(--hf-bg-mesh-1), transparent 75%);
     background-size: cover;
     background-attachment: fixed;
-    color: var(--hf-text-primary);
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   }
 
   input, textarea, select {
     font-size: 16px !important;
-    color: var(--hf-text-primary) !important;
   }
 
   /* Force 100% readable placeholder colors */
   html.light ::placeholder {
-    color: #4b5563 !important;
-    opacity: 1 !important;
+    color: #111827 !important;
+    opacity: 0.8 !important;
   }
   html.dark ::placeholder {
-    color: #cbd5e1 !important;
-    opacity: 1 !important;
+    color: #f1f5f9 !important;
+    opacity: 0.8 !important;
   }
 
   ::-webkit-scrollbar {
@@ -127,13 +177,12 @@ html.light {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--hf-glass-border);
-  color: var(--hf-text-primary) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-input:focus {
   border-color: var(--hf-text-primary);
-  box-shadow: 0 0 0 3px var(--hf-accent-glow);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
   outline: none;
   background: var(--hf-glass-bg-2);
 }
@@ -168,5 +217,4 @@ html.light {
   overflow: auto;
   font-size: 8px;
   background: transparent;
-  color: var(--hf-text-primary);
 }

@@ -72,7 +72,7 @@ function MainAppContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans overflow-hidden bg-var-hf-bg text-var-hf-text relative">
+    <div className="min-h-screen flex flex-col font-sans overflow-hidden relative">
 
       {/* Intro Splash Screen */}
       <AnimatePresence>
