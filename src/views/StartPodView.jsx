@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePods } from '../hooks/usePods.js';
 import { useTopics } from '../hooks/useTopics.js';
 import { useImageUpload } from '../hooks/useImageUpload.js';
 import { Loader2, ImagePlus, X } from 'lucide-react';
 
-export default function StartPodView({ onPodCreated }) {
+export default function StartPodView({ onPodCreated, prefillData }) {
   const { topics, loading: topicsLoading } = useTopics();
   const { createPod } = usePods();
   const { uploadImage, uploading: imageUploading } = useImageUpload();
 
-  const [topicId, setTopicId] = useState('');
-  const [title, setTitle] = useState('');
-  const [seed, setSeed] = useState('');
+  const [topicId, setTopicId] = useState(prefillData?.initialTopicId || '');
+  const [title, setTitle] = useState(prefillData?.initialTitle || '');
+  const [seed, setSeed] = useState(prefillData?.initialSeed || '');
   const [capacity, setCapacity] = useState(8);
   const [coverFile, setCoverFile] = useState(null);
-  const [coverPreview, setCoverPreview] = useState('');
+  const [coverPreview, setCoverPreview] = useState(prefillData?.initialImageUrl || '');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (prefillData) {
+      if (prefillData.initialTitle) setTitle(prefillData.initialTitle);
+      if (prefillData.initialSeed) setSeed(prefillData.initialSeed);
+      if (prefillData.initialImageUrl) setCoverPreview(prefillData.initialImageUrl);
+      if (prefillData.initialTopicId) setTopicId(prefillData.initialTopicId);
+    }
+  }, [prefillData]);
 
   const handleCoverSelect = (e) => {
     const file = e.target.files[0];
@@ -34,7 +43,7 @@ export default function StartPodView({ onPodCreated }) {
     setError(null);
 
     try {
-      let imageUrl = null;
+      let imageUrl = prefillData?.initialImageUrl || null;
       if (coverFile) {
         imageUrl = await uploadImage(coverFile, 'pod_covers');
       }
@@ -49,7 +58,7 @@ export default function StartPodView({ onPodCreated }) {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 sm:px-6 py-12">
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-xl">
         <h1 className="font-serif text-3xl md:text-4xl text-parchment mb-2">
           Start a New Conversation Pod
@@ -99,7 +108,7 @@ export default function StartPodView({ onPodCreated }) {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Suburbs & Unstated Isolation"
               required
-              className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 text-parchment text-sm focus:border-sage-signal outline-none transition-colors"
+              className="glass-input w-full rounded-2xl p-3.5 text-sm"
             />
           </div>
 
@@ -135,7 +144,7 @@ export default function StartPodView({ onPodCreated }) {
               placeholder="Frame the question clearly. What design trade-off are we exploring?"
               rows={3}
               required
-              className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 text-parchment text-sm focus:border-sage-signal outline-none transition-colors"
+              className="glass-input w-full rounded-2xl p-3.5 text-sm leading-relaxed"
             />
           </div>
 

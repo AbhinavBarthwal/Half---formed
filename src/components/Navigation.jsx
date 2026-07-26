@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Library, Plus, Compass, User, Menu, X } from 'lucide-react';
+import { Sparkles, Library, Plus, Compass, User, Menu, X, Images, BookOpen } from 'lucide-react';
 
 export default function Navigation({ onNavigate, currentView, user, isAuthenticated, onOpenArtLab }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,33 +28,51 @@ export default function Navigation({ onNavigate, currentView, user, isAuthentica
       </div>
 
       {/* Desktop Nav Links */}
-      <nav className="hidden md:flex items-center gap-8">
+      <nav className="hidden md:flex items-center gap-6">
         <button
           onClick={() => onNavigate('discover')}
-          className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
             currentView === 'discover' ? 'text-sage-signal font-semibold' : 'text-ash hover:text-parchment'
           }`}
         >
-          <Compass size={16} /> Discover
+          <Compass size={15} /> Discover
+        </button>
+
+        <button
+          onClick={() => onNavigate('gallery')}
+          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
+            currentView === 'gallery' ? 'text-philosophy-gold font-semibold' : 'text-ash hover:text-parchment'
+          }`}
+        >
+          <Images size={15} /> Gallery
+        </button>
+
+        <button
+          onClick={() => onNavigate('articles')}
+          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
+            currentView === 'articles' ? 'text-clay-thread font-semibold' : 'text-ash hover:text-parchment'
+          }`}
+        >
+          <BookOpen size={15} /> Articles
         </button>
 
         <button
           onClick={() => onNavigate('archive')}
-          className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
             currentView === 'archive' ? 'text-dusk-lavender font-semibold' : 'text-ash hover:text-parchment'
           }`}
         >
-          <Library size={16} /> Archive
+          <Library size={15} /> Archive
         </button>
 
         {isAuthenticated && (
           <button
             onClick={() => onNavigate('start')}
-            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-              currentView === 'start' ? 'text-philosophy-gold font-semibold' : 'text-ash hover:text-parchment'
+            className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
+              currentView === 'start' ? 'text-sage-signal font-semibold' : 'text-ash hover:text-parchment'
             }`}
           >
-            <Plus size={16} /> Start Pod
+            <Plus size={15} /> Start Pod
           </button>
         )}
       </nav>
@@ -104,7 +122,7 @@ export default function Navigation({ onNavigate, currentView, user, isAuthentica
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 glass-panel border-b border-white/10 p-5 shadow-2xl flex flex-col gap-4 z-50">
+        <div className="md:hidden fixed top-[64px] left-0 right-0 glass-panel border-b border-white/10 p-5 shadow-2xl flex flex-col gap-4 z-50">
           <button
             onClick={() => handleMobileNav('discover')}
             className={`flex items-center gap-3 text-sm font-medium py-2 ${
@@ -112,6 +130,22 @@ export default function Navigation({ onNavigate, currentView, user, isAuthentica
             }`}
           >
             <Compass size={18} /> Discover Pods
+          </button>
+          <button
+            onClick={() => handleMobileNav('gallery')}
+            className={`flex items-center gap-3 text-sm font-medium py-2 ${
+              currentView === 'gallery' ? 'text-philosophy-gold font-semibold' : 'text-ash'
+            }`}
+          >
+            <Images size={18} /> Thoughts Gallery
+          </button>
+          <button
+            onClick={() => handleMobileNav('articles')}
+            className={`flex items-center gap-3 text-sm font-medium py-2 ${
+              currentView === 'articles' ? 'text-clay-thread font-semibold' : 'text-ash'
+            }`}
+          >
+            <BookOpen size={18} /> Community Articles
           </button>
           <button
             onClick={() => handleMobileNav('archive')}
@@ -125,7 +159,7 @@ export default function Navigation({ onNavigate, currentView, user, isAuthentica
             <button
               onClick={() => handleMobileNav('start')}
               className={`flex items-center gap-3 text-sm font-medium py-2 ${
-                currentView === 'start' ? 'text-philosophy-gold font-semibold' : 'text-ash'
+                currentView === 'start' ? 'text-sage-signal font-semibold' : 'text-ash'
               }`}
             >
               <Plus size={18} /> Start New Pod

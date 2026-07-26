@@ -9,6 +9,8 @@ import StartPodView from './views/StartPodView.jsx';
 import ProfileView from './views/ProfileView.jsx';
 import OnboardingView from './views/OnboardingView.jsx';
 import ImageArtLab from './components/ImageArtLab.jsx';
+import ThoughtsGallery from './components/ThoughtsGallery.jsx';
+import ArticlesView from './views/ArticlesView.jsx';
 import { useAuth } from './hooks/useAuth.js';
 import { Loader2 } from 'lucide-react';
 
@@ -23,6 +25,7 @@ export default function App() {
   const [currentView, setCurrentView] = useState('discover');
   const [activePod, setActivePod] = useState(null);
   const [artLabOpen, setArtLabOpen] = useState(false);
+  const [podPrefill, setPodPrefill] = useState(null);
   const [showSplash, setShowSplash] = useState(() => !localStorage.getItem('hf_seen_splash'));
 
   const { user, session, loading, isAuthenticated, signOut } = useAuth();
@@ -30,6 +33,25 @@ export default function App() {
   const navigateTo = (view, pod = null) => {
     setCurrentView(view);
     if (pod) setActivePod(pod);
+  };
+
+  const handleSpawnPodFromThought = (thought) => {
+    setPodPrefill({
+      initialTitle: `Reflection: ${thought.caption.substring(0, 45)}...`,
+      initialSeed: thought.caption,
+      initialImageUrl: thought.imageUrl,
+    });
+    navigateTo('start');
+  };
+
+  const handleSpawnPodFromArticle = (article) => {
+    setPodPrefill({
+      initialTitle: `Discussion: ${article.title}`,
+      initialSeed: article.excerpt || article.title,
+      initialImageUrl: article.coverImageUrl,
+      initialTopicId: article.topic?.id,
+    });
+    navigateTo('start');
   };
 
   const handleDismissSplash = () => {
@@ -60,7 +82,7 @@ export default function App() {
       </AnimatePresence>
 
       <Navigation
-        onNavigate={navigateTo}
+        onNavigate={(v) => navigateTo(v)}
         currentView={currentView}
         user={user}
         isAuthenticated={isAuthenticated}
@@ -77,6 +99,25 @@ export default function App() {
                   if (!isAuthenticated) { navigateTo('onboarding'); return; }
                   navigateTo('pod', pod);
                 }}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'gallery' && (
+            <motion.div key="gallery" {...viewTransition} className="h-full overflow-y-auto">
+              <ThoughtsGallery
+                currentUser={user}
+                onSpawnPodFromThought={handleSpawnPodFromThought}
+                onOpenArtLab={() => setArtLabOpen(true)}
+              />
+            </motion.div>
+          )}
+
+          {currentView === 'articles' && (
+            <motion.div key="articles" {...viewTransition} className="h-full overflow-y-auto">
+              <ArticlesView
+                currentUser={user}
+                onSpawnPodFromArticle={handleSpawnPodFromArticle}
               />
             </motion.div>
           )}
@@ -100,7 +141,13 @@ export default function App() {
           {currentView === 'start' && (
             <motion.div key="start" {...viewTransition} className="h-full overflow-y-auto">
               {isAuthenticated ? (
-                <StartPodView onPodCreated={(pod) => navigateTo('pod', pod)} />
+                <StartPodView
+                  prefillData={podPrefill}
+                  onPodCreated={(pod) => {
+                    setPodPrefill(null);
+                    navigateTo('pod', pod);
+                  }}
+                />
               ) : (
                 <OnboardingView onComplete={() => navigateTo('start')} />
               )}
@@ -126,7 +173,15 @@ export default function App() {
       </main>
 
       <AnimatePresence>
-        {artLabOpen && <ImageArtLab onClose={() => setArtLabOpen(false)} />}
+        {artLabOpen && (
+          <ImageArtLab
+            onClose={() => setArtLabOpen(false)}
+            onThoughtCreated={(thought) => {
+              setArtLabOpen(false);
+              navigateTo('gallery');
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
