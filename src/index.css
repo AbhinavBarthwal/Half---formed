@@ -3,18 +3,12 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Mode Hierarchy Colors (100% White down to 75% White for hierarchy) */
+  /* Dark Mode Palette */
   --hf-bg-base: #0a1118;
   --hf-bg-mesh-1: rgba(13, 27, 42, 0.92);
   --hf-bg-mesh-2: rgba(27, 38, 59, 0.45);
   --hf-bg-mesh-3: rgba(65, 90, 119, 0.25);
   
-  --text-h1: #ffffff;         /* 100% White */
-  --text-h2: #f8fafc;         /* 97% White */
-  --text-body: #f1f5f9;       /* 95% White */
-  --text-muted: #e2e8f0;      /* 88% White */
-  --text-subtle: #cbd5e1;     /* 78% White - lowest hierarchy */
-
   --hf-glass-border: rgba(255, 255, 255, 0.16);
   --hf-glass-bg-1: rgba(27, 38, 59, 0.65);
   --hf-glass-bg-2: rgba(27, 38, 59, 0.85);
@@ -24,17 +18,11 @@
 }
 
 html.light {
-  /* Light Mode Hierarchy Colors (100% Black down to 70% Dark Grey - NOT Light Grey!) */
+  /* Light Mode Palette */
   --hf-bg-base: #fdf0d5;
   --hf-bg-mesh-1: rgba(253, 240, 213, 0.98);
   --hf-bg-mesh-2: rgba(230, 210, 170, 0.45);
   --hf-bg-mesh-3: rgba(200, 180, 140, 0.30);
-  
-  --text-h1: #000000;         /* 100% Black */
-  --text-h2: #0f172a;         /* 95% Black */
-  --text-body: #1e293b;       /* 90% Black */
-  --text-muted: #334155;      /* 80% Dark Grey */
-  --text-subtle: #475569;     /* 70% Dark Grey - lowest hierarchy, no light grey! */
 
   --hf-glass-border: rgba(0, 0, 0, 0.18);
   --hf-glass-bg-1: rgba(255, 255, 255, 0.88);
@@ -42,78 +30,6 @@ html.light {
   --hf-glass-bg-3: rgba(253, 240, 213, 0.96);
   --hf-glass-bg-4: rgba(253, 240, 213, 0.98);
   --hf-shadow: rgba(0, 0, 0, 0.14);
-}
-
-/* ============================================================
-   STRICT HIERARCHY LEGIBILITY RULES (PER AUDIO DIRECTIVE)
-   ============================================================ */
-
-.text-hf-h1 {
-  color: var(--text-h1) !important;
-}
-.text-hf-h2 {
-  color: var(--text-h2) !important;
-}
-.text-hf-body {
-  color: var(--text-body) !important;
-}
-.text-hf-muted {
-  color: var(--text-muted) !important;
-}
-.text-hf-subtle {
-  color: var(--text-subtle) !important;
-}
-
-/* Default Element Overrides for Light Mode */
-html.light,
-html.light body,
-html.light header,
-html.light header *,
-html.light nav,
-html.light nav * {
-  color: var(--text-h1) !important;
-}
-
-html.light h1 { color: var(--text-h1) !important; }
-html.light h2 { color: var(--text-h2) !important; }
-html.light h3, html.light h4, html.light h5, html.light h6 { color: var(--text-body) !important; }
-html.light p, html.light span, html.light div, html.light a, html.light label, html.light input, html.light textarea {
-  color: var(--text-body) !important;
-}
-
-/* Light Mode Exception: Dark filled containers (.bg-black, .bg-crimson-700) get 100% white text */
-html.light .bg-black,
-html.light .bg-black *,
-html.light .bg-crimson-700,
-html.light .bg-crimson-700 *,
-html.light [class*="bg-black"],
-html.light [class*="bg-black"] * {
-  color: #ffffff !important;
-}
-
-/* Default Element Overrides for Dark Mode */
-html.dark,
-html.dark body,
-html.dark header,
-html.dark header *,
-html.dark nav,
-html.dark nav * {
-  color: var(--text-h1) !important;
-}
-
-html.dark h1 { color: var(--text-h1) !important; }
-html.dark h2 { color: var(--text-h2) !important; }
-html.dark h3, html.dark h4, html.dark h5, html.dark h6 { color: var(--text-body) !important; }
-html.dark p, html.dark span, html.dark div, html.dark a, html.dark label, html.dark input, html.dark textarea {
-  color: var(--text-body) !important;
-}
-
-/* Dark Mode Exception: Light filled containers (.bg-white) get 100% black text */
-html.dark .bg-white,
-html.dark .bg-white *,
-html.dark [class*="bg-white"],
-html.dark [class*="bg-white"] * {
-  color: #000000 !important;
 }
 
 @layer base {
@@ -135,17 +51,32 @@ html.dark [class*="bg-white"] * {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   }
 
+  /* Default text colors for theme */
+  html.light {
+    color: #000000;
+  }
+  html.dark {
+    color: #ffffff;
+  }
+
   input, textarea, select {
     font-size: 16px !important;
   }
 
+  html.light input, html.light textarea {
+    color: #000000 !important;
+  }
+  html.dark input, html.dark textarea {
+    color: #ffffff !important;
+  }
+
   html.light ::placeholder {
-    color: var(--text-subtle) !important;
-    opacity: 0.9 !important;
+    color: #374151 !important;
+    opacity: 0.8 !important;
   }
   html.dark ::placeholder {
-    color: var(--text-subtle) !important;
-    opacity: 0.9 !important;
+    color: #cbd5e1 !important;
+    opacity: 0.8 !important;
   }
 
   ::-webkit-scrollbar {
@@ -204,7 +135,7 @@ html.dark [class*="bg-white"] * {
 }
 
 .glass-input:focus {
-  border-color: var(--text-h1);
+  border-color: #000000;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
   outline: none;
   background: var(--hf-glass-bg-2);
