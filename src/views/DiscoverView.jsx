@@ -190,43 +190,44 @@ export default function DiscoverView({ onEnterPod, user, onOpenTopicManager }) {
                     transition={{ duration: 0.3, delay: idx * 0.05 }}
                     whileHover={{ y: -4 }}
                     onClick={() => onEnterPod(pod)}
-                    className="glass-2 rounded-3xl overflow-hidden border border-black/15 dark:border-white/15 shadow-xl cursor-pointer flex flex-col justify-between group transition-all"
+                    className={`glass-2 rounded-3xl overflow-hidden border border-white/15 shadow-xl cursor-pointer flex flex-col justify-between group transition-all relative ${pod.imageUrl ? 'min-h-[340px] text-white' : ''}`}
                   >
-                    {/* Optional Cover Banner */}
+                    {/* Optional Cover Background */}
                     {pod.imageUrl && (
-                      <div className="h-36 w-full relative overflow-hidden bg-black/40 border-b border-black/10 dark:border-white/10">
+                      <div className="absolute inset-0 z-0">
                         <img
                           src={pod.imageUrl}
                           alt={pod.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
+                        {/* Siri-style clear-top black-bottom gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-95" />
                       </div>
                     )}
 
-                    <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div className={`p-6 flex-1 flex flex-col justify-between space-y-4 relative z-10 ${pod.imageUrl ? 'mt-auto' : ''}`}>
                       {/* HIG Hierarchy: Primary Title first */}
                       <div>
-                        <h3 className="font-serif text-xl sm:text-2xl text-black dark:text-white font-black mb-2 line-clamp-2 leading-snug group-hover:opacity-80 transition-colors">
+                        <h3 className={`font-serif text-xl sm:text-2xl font-black mb-2 line-clamp-2 leading-snug group-hover:opacity-80 transition-colors ${pod.imageUrl ? 'text-white' : 'text-white'}`}>
                           {pod.title}
                         </h3>
 
                         {pod.seedPrompt && (
-                          <p className="text-black/80 dark:text-white/80 text-xs sm:text-sm line-clamp-3 leading-relaxed font-sans font-bold">
+                          <p className={`text-xs sm:text-sm line-clamp-3 leading-relaxed font-sans font-bold ${pod.imageUrl ? 'text-white/90' : 'text-white/80'}`}>
                             "{pod.seedPrompt}"
                           </p>
                         )}
                       </div>
 
                       {/* Footer Metadata & Actions */}
-                      <div className="pt-4 border-t border-black/10 dark:border-white/10 flex items-center justify-between mt-auto">
+                      <div className={`pt-4 border-t flex items-center justify-between mt-auto ${pod.imageUrl ? 'border-white/20' : 'border-white/10'}`}>
                         <div className="flex items-center gap-2">
                           <span
-                            className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-black/20 dark:border-white/20 bg-black/10 dark:bg-white/10 font-black text-black dark:text-white"
+                            className={`text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border font-black ${pod.imageUrl ? 'border-white/30 bg-black/40 text-white' : 'border-white/20 bg-white/10 text-white'}`}
                           >
                             {pod.topic?.name}
                           </span>
-                          <span className="text-xs font-mono font-black text-black/70 dark:text-white/70 flex items-center gap-1">
+                          <span className={`text-xs font-mono font-black flex items-center gap-1 ${pod.imageUrl ? 'text-white/90' : 'text-white/70'}`}>
                             <Users size={12} /> {pod.memberCount}/{pod.capacity}
                           </span>
                         </div>
@@ -235,8 +236,8 @@ export default function DiscoverView({ onEnterPod, user, onOpenTopicManager }) {
                           onClick={(e) => handleJoinClick(e, pod)}
                           className={`px-3.5 py-1 rounded-full text-xs font-mono font-black transition-all flex items-center gap-1 shadow-sm interactive-scale ${
                             isMember
-                              ? 'bg-black/10 text-black dark:bg-white/10 dark:text-white border border-black/20 dark:border-white/20'
-                              : 'bg-black text-white dark:bg-white dark:text-black hover:opacity-90'
+                              ? 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                              : 'bg-white text-black hover:opacity-90'
                           }`}
                         >
                           {isMember ? 'Enter' : 'Join'} <ArrowRight size={12} />

@@ -10,46 +10,47 @@ function ThoughtCard({ thought, onSelectThought, onSpawnPod, currentUser }) {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -3 }}
       onClick={() => onSelectThought(thought)}
-      className="glass-2 rounded-3xl overflow-hidden border border-slateContrast-300/40 dark:border-navy-400/25 shadow-xl cursor-pointer flex flex-col justify-between group transition-all"
+      className="glass-2 rounded-3xl overflow-hidden border border-white/15 shadow-xl cursor-pointer flex flex-col justify-between group transition-all relative min-h-[340px] text-white"
     >
-      {/* Image */}
-      <div className="relative w-full aspect-square bg-black/40 overflow-hidden border-b border-slateContrast-300/20 dark:border-navy-400/10">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
         <img
           src={thought.imageUrl}
           alt={thought.caption}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+        {/* Siri-style gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-95" />
         
         {/* Art Mode badge */}
-        <span className="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white font-bold">
+        <span className="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white font-bold z-10">
           {thought.artMode}
         </span>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-5 flex-1 flex flex-col justify-end space-y-4 relative z-10 mt-auto">
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-crimson-700 dark:bg-navy-400 text-white font-bold text-[10px] flex items-center justify-center uppercase overflow-hidden border border-white/20">
+            <div className="w-6 h-6 rounded-full bg-white text-black font-bold text-[10px] flex items-center justify-center uppercase overflow-hidden border border-white/20">
               {thought.author.avatarUrl ? (
                 <img src={thought.author.avatarUrl} alt="" className="w-full h-full object-cover" />
               ) : (
                 thought.author.displayName?.[0] || thought.author.handle[0]
               )}
             </div>
-            <span className="text-xs font-mono text-slateContrast-800 dark:text-slateContrast-200 font-bold truncate">
+            <span className="text-xs font-mono text-white/90 font-bold truncate">
               {thought.author.displayName || `@${thought.author.handle}`}
             </span>
           </div>
 
-          <p className="text-sm font-serif text-slateContrast-900 dark:text-slateContrast-50 font-bold leading-relaxed line-clamp-3 mb-2">
+          <p className="text-sm font-serif text-white font-bold leading-relaxed line-clamp-3 mb-2">
             "{thought.caption}"
           </p>
         </div>
 
-        <div className="pt-3 border-t border-slateContrast-300/30 dark:border-navy-400/20 flex items-center justify-between text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">
-          <span className="flex items-center gap-1.5 text-crimson-700 dark:text-crimson-400">
+        <div className="pt-3 border-t border-white/20 flex items-center justify-between text-xs font-mono font-bold text-white/80">
+          <span className="flex items-center gap-1.5 text-white/90">
             <MessageSquare size={14} /> {thought.commentCount} responses
           </span>
 
@@ -58,7 +59,7 @@ function ThoughtCard({ thought, onSelectThought, onSpawnPod, currentUser }) {
               e.stopPropagation();
               onSpawnPod(thought);
             }}
-            className="px-3 py-1.5 bg-slateContrast-900 text-white dark:bg-slateContrast-50 dark:text-slateContrast-900 text-[11px] font-bold rounded-full transition-colors flex items-center gap-1 shadow-sm interactive-scale"
+            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[11px] font-bold rounded-full transition-colors flex items-center gap-1 shadow-sm interactive-scale"
           >
             <Sparkles size={12} /> Spawn Pod
           </button>

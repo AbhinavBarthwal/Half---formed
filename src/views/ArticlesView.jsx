@@ -253,30 +253,32 @@ export default function ArticlesView({ onSpawnPodFromArticle, currentUser }) {
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ y: -3 }}
               onClick={() => setSelectedArticle(article)}
-              className="glass-2 rounded-3xl overflow-hidden border border-slateContrast-300/40 dark:border-navy-400/25 shadow-xl cursor-pointer flex flex-col justify-between group transition-all"
+              className={`glass-2 rounded-3xl overflow-hidden border border-white/15 shadow-xl cursor-pointer flex flex-col justify-between group transition-all relative ${article.coverImageUrl ? 'min-h-[340px] text-white' : ''}`}
             >
               {article.coverImageUrl && (
-                <div className="h-40 w-full relative overflow-hidden bg-black/30 border-b border-slateContrast-300/20 dark:border-navy-400/10">
+                <div className="absolute inset-0 z-0">
                   <img src={article.coverImageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {/* Siri-style clear-top black-bottom gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-95" />
                 </div>
               )}
 
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div className={`p-6 flex-1 flex flex-col justify-end space-y-4 relative z-10 ${article.coverImageUrl ? 'mt-auto' : ''}`}>
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-slateContrast-400/30 dark:border-navy-400/20 bg-black/5 dark:bg-white/10 font-bold" style={{ color: article.topic?.accent_hex || '#c1121f' }}>
+                  <span className={`text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border font-bold ${article.coverImageUrl ? 'border-white/30 bg-black/40 text-white' : 'border-white/20 bg-white/10'}`} style={!article.coverImageUrl && article.topic ? { color: article.topic?.accent_hex || '#ffffff' } : {}}>
                     {article.topic?.name}
                   </span>
-                  <h3 className="font-serif text-xl text-slateContrast-900 dark:text-slateContrast-50 font-bold mt-3 group-hover:text-crimson-700 dark:group-hover:text-crimson-400 transition-colors line-clamp-2">
+                  <h3 className={`font-serif text-xl font-bold mt-3 transition-colors line-clamp-2 ${article.coverImageUrl ? 'text-white group-hover:text-white/80' : 'text-white group-hover:text-white/80'}`}>
                     {article.title}
                   </h3>
-                  <p className="text-slateContrast-700 dark:text-slateContrast-300 text-xs line-clamp-3 leading-relaxed mt-2 font-sans font-medium">
+                  <p className={`text-xs line-clamp-3 leading-relaxed mt-2 font-sans font-medium ${article.coverImageUrl ? 'text-white/90' : 'text-white/70'}`}>
                     {article.excerpt}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slateContrast-300/30 dark:border-navy-400/20 flex items-center justify-between text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">
+                <div className={`pt-3 border-t flex items-center justify-between text-xs font-mono font-bold ${article.coverImageUrl ? 'border-white/20 text-white/80' : 'border-white/10 text-white/70'}`}>
                   <span>By {article.author.displayName || `@${article.author.handle}`}</span>
-                  <span className="text-crimson-700 dark:text-crimson-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">Read Essay <ArrowRight size={13} /></span>
+                  <span className={`flex items-center gap-1 group-hover:translate-x-1 transition-transform ${article.coverImageUrl ? 'text-white' : 'text-white'}`}>Read Essay <ArrowRight size={13} /></span>
                 </div>
               </div>
             </motion.div>
