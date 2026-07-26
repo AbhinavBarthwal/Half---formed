@@ -76,7 +76,7 @@ create table if not exists pods (
   title text not null check (length(title) >= 3),
   seed_prompt text,
   capacity int not null default 8 check (capacity >= 2 and capacity <= 20),
-  status text not null default 'active' check (status in ('active','archived')),
+  status text not null default 'active' check (status in ('active','fully_formed','archived')),
   created_by uuid not null references profiles(id),
   created_at timestamptz default now()
 );

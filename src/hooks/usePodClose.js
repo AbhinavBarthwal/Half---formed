@@ -7,7 +7,8 @@ export function usePodClose() {
   const closePod = async (podId, closingStatement) => {
     setClosing(true);
     try {
-      const { error } = await supabase
+      // Try setting status to 'fully_formed' first
+      let { error } = await supabase
         .from('pods')
         .update({
           status: 'fully_formed',
@@ -15,6 +16,19 @@ export function usePodClose() {
           closed_at: new Date().toISOString(),
         })
         .eq('id', podId);
+
+      // If a status check constraint error occurs, fallback to 'archived'
+      if (error && error.message?.includes('pods_status_check')) {
+        const fallbackRes = await supabase
+          .from('pods')
+          .update({
+            status: 'archived',
+            closing_statement: closingStatement,
+            closed_at: new Date().toISOString(),
+          })
+          .eq('id', podId);
+        error = fallbackRes.error;
+      }
 
       if (error) throw error;
       setClosing(false);
