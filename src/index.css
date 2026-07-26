@@ -36,9 +36,13 @@ html.light {
    BULLETPROOF 100% LEGIBILITY RULE
    ============================================================ */
 
-/* LIGHT MODE: Force EVERY SINGLE text element to PURE BLACK (#000000) */
+/* LIGHT MODE: Force EVERY SINGLE text element & icon to PURE BLACK (#000000) */
 html.light,
 html.light body,
+html.light header,
+html.light header *,
+html.light nav,
+html.light nav *,
 html.light h1, 
 html.light h2, 
 html.light h3, 
@@ -55,7 +59,7 @@ html.light textarea {
   color: #000000 !important;
 }
 
-/* LIGHT MODE EXCEPTION: Elements with filled dark background (.bg-black, .bg-crimson-700) get pure white text */
+/* LIGHT MODE EXCEPTION: Elements with filled dark background (.bg-black) get pure white text */
 html.light .bg-black,
 html.light .bg-black *,
 html.light .bg-crimson-700,
@@ -65,9 +69,13 @@ html.light [class*="bg-black"] * {
   color: #ffffff !important;
 }
 
-/* DARK MODE: Force EVERY SINGLE text element to PURE WHITE (#ffffff) */
+/* DARK MODE: Force EVERY SINGLE text element & icon to PURE WHITE (#ffffff) */
 html.dark,
 html.dark body,
+html.dark header,
+html.dark header *,
+html.dark nav,
+html.dark nav *,
 html.dark h1,
 html.dark h2,
 html.dark h3,
@@ -117,11 +125,11 @@ html.dark [class*="bg-white"] * {
 
   /* Force 100% readable placeholder colors */
   html.light ::placeholder {
-    color: #111827 !important;
+    color: #000000 !important;
     opacity: 0.8 !important;
   }
   html.dark ::placeholder {
-    color: #f1f5f9 !important;
+    color: #ffffff !important;
     opacity: 0.8 !important;
   }
 
