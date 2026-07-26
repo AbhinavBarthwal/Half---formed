@@ -8,9 +8,8 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
   const [mode, setMode] = useState('halftone');
-  const [density, setDensity] = useState(40);
+  const [density, setDensity] = useState(45);
   const [imageSrc, setImageSrc] = useState('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop');
-  const [asciiText, setAsciiText] = useState('');
   const [caption, setCaption] = useState('');
   const [attaching, setAttaching] = useState(false);
 
@@ -26,8 +25,8 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
     const img = new Image();
     img.crossOrigin = "Anonymous";
     img.onload = () => {
-      const containerWidth = canvas.parentElement.clientWidth || 500;
-      const containerHeight = canvas.parentElement.clientHeight || 400;
+      const containerWidth = Math.min(canvas.parentElement.clientWidth || 500, 600);
+      const containerHeight = Math.min(canvas.parentElement.clientHeight || 400, 500);
       const ratio = Math.min(containerWidth / img.width, containerHeight / img.height);
       const w = Math.floor(img.width * ratio);
       const h = Math.floor(img.height * ratio);
@@ -37,10 +36,10 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
 
       if (mode === 'original') {
         ctx.drawImage(img, 0, 0, w, h);
-        setAsciiText('');
         return;
       }
 
+      // Create offscreen canvas to sample pixels
       const offCanvas = document.createElement('canvas');
       const offCtx = offCanvas.getContext('2d');
       offCanvas.width = w;
@@ -48,11 +47,18 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
       offCtx.drawImage(img, 0, 0, w, h);
       const imgData = offCtx.getImageData(0, 0, w, h).data;
 
-      ctx.clearRect(0, 0, w, h);
+      // Dark background fill
+      ctx.fillStyle = '#0E1411';
+      ctx.fillRect(0, 0, w, h);
       
       const step = Math.max(4, Math.floor(100 - density));
-      let asciiStr = '';
       const chars = ' .:-=+*#%@';
+
+      if (mode === 'ascii') {
+        ctx.font = `${step}px monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+      }
 
       for (let y = 0; y < h; y += step) {
         for (let x = 0; x < w; x += step) {
@@ -62,16 +68,13 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
           const b = imgData[i+2];
           const a = imgData[i+3];
           
-          if (a === 0) {
-            if (mode === 'ascii') asciiStr += ' ';
-            continue;
-          }
+          if (a === 0) continue;
 
           const brightness = (r + g + b) / 3;
           
           if (mode === 'halftone') {
             const radius = (1 - (brightness / 255)) * (step / 1.5);
-            if (radius > 0.5) {
+            if (radius > 0.4) {
               ctx.beginPath();
               ctx.arc(x + step/2, y + step/2, radius, 0, Math.PI * 2);
               ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
@@ -79,16 +82,13 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
             }
           } else if (mode === 'ascii') {
             const charIdx = Math.floor((brightness / 255) * (chars.length - 1));
-            asciiStr += chars[charIdx];
+            const char = chars[charIdx];
+            if (char && char !== ' ') {
+              ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+              ctx.fillText(char, x + step/2, y + step/2);
+            }
           }
         }
-        if (mode === 'ascii') asciiStr += '\n';
-      }
-
-      if (mode === 'ascii') {
-        setAsciiText(asciiStr);
-      } else {
-        setAsciiText('');
       }
     };
     img.src = imageSrc;
@@ -106,25 +106,8 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
   const handleAttachThought = async () => {
     setAttaching(true);
     try {
-      let imageUrl = null;
-      if (mode === 'ascii') {
-        // Create offscreen canvas for ASCII render snapshot
-        const asciiCanvas = document.createElement('canvas');
-        asciiCanvas.width = 800;
-        asciiCanvas.height = 600;
-        const actx = asciiCanvas.getContext('2d');
-        actx.fillStyle = '#0E1411';
-        actx.fillRect(0, 0, 800, 600);
-        actx.fillStyle = '#EDE6D3';
-        actx.font = '10px monospace';
-        const lines = asciiText.split('\n');
-        lines.forEach((line, idx) => {
-          actx.fillText(line, 20, 20 + idx * 10);
-        });
-        imageUrl = await uploadCanvas(asciiCanvas, 'ascii_thoughts');
-      } else {
-        imageUrl = await uploadCanvas(canvasRef.current, 'art_thoughts');
-      }
+      // Direct canvas upload — works for Halftone, ASCII, and Original!
+      const imageUrl = await uploadCanvas(canvasRef.current, 'art_thoughts');
 
       const thought = await createThought({
         imageUrl,
@@ -196,11 +179,11 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
           {/* 3. Density */}
           <div className="space-y-2">
             <div className="flex justify-between items-center text-[10px] font-mono uppercase text-ash">
-              <span>3. Pixel Density</span>
+              <span>3. Grid Resolution</span>
               <span className="text-sage-signal">{density}%</span>
             </div>
             <input 
-              type="range" min="10" max="95" 
+              type="range" min="10" max="90" 
               value={density} onChange={(e) => setDensity(Number(e.target.value))}
               className="w-full accent-sage-signal cursor-pointer"
             />
@@ -235,13 +218,7 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
           <button onClick={onClose} className="absolute top-4 right-4 hidden md:block text-ash hover:text-white bg-black/40 p-2 rounded-full backdrop-blur-md z-10 border border-white/10"><X size={18} /></button>
           
           <div className="w-full h-full flex items-center justify-center relative my-auto">
-            <canvas ref={canvasRef} className={`max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/10 ${mode === 'ascii' ? 'hidden' : 'block'}`} />
-            
-            {mode === 'ascii' && asciiText && (
-              <pre className="ascii-pre absolute inset-0 flex items-center justify-center text-center leading-none tracking-widest font-mono text-[9px] text-parchment overflow-auto p-4 bg-black/60 rounded-2xl">
-                {asciiText}
-              </pre>
-            )}
+            <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/10 block" />
           </div>
 
           {/* Mobile attach CTA */}
