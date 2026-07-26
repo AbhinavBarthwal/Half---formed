@@ -4,22 +4,31 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        'ink-deep': '#1B2420',
-        'parchment': '#EDE6D3',
-        'ash': '#8B9490',
-        'sage-signal': '#7C9B7E',
-        'clay-thread': '#C17F56',
-        'dusk-lavender': '#9C8CA8',
-        'harbor-teal': '#4F8583',
-        'philosophy-gold': '#B8A46E'
+        // Dark palette
+        navy: {
+          900: '#0d1b2a',
+          800: '#1b263b',
+          700: '#415a77',
+          400: '#778da9',
+          100: '#e0e1dd',
+        },
+        // Light palette
+        crimson: {
+          900: '#780000',
+          700: '#c1121f',
+          100: '#fdf0d5',
+          800: '#003049',
+          400: '#669bbc',
+        },
       },
       fontFamily: {
-        serif: ['Fraunces', 'serif'],
-        sans: ['Karla', 'sans-serif'],
-        mono: ['IBM Plex Mono', 'monospace'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'system-ui', 'sans-serif'],
+        serif: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'Georgia', 'serif'],
+        mono: ['"SF Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       }
     },
   },

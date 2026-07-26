@@ -1,172 +1,169 @@
-import React, { useState } from 'react';
-import { Sparkles, Library, Plus, Compass, User, Menu, X, Images, BookOpen } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Compass, Images, BookOpen, Library, Plus, Sparkles, User, Sun, Moon, Tag } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext.jsx';
 
-export default function Navigation({ onNavigate, currentView, user, isAuthenticated, onOpenArtLab }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function Navigation({ onNavigate, currentView, user, isAuthenticated, onOpenArtLab, onOpenTopicManager }) {
+  const { theme, toggleTheme } = useTheme();
 
-  const handleMobileNav = (view) => {
-    onNavigate(view);
-    setMobileMenuOpen(false);
-  };
+  const navItems = [
+    { key: 'discover', label: 'Discover', icon: Compass },
+    { key: 'gallery', label: 'Gallery', icon: Images },
+    { key: 'articles', label: 'Articles', icon: BookOpen },
+    { key: 'archive', label: 'Archive', icon: Library },
+  ];
 
   return (
-    <header className="w-full flex items-center justify-between px-4 sm:px-6 py-4 border-b border-white/10 bg-black/40 backdrop-blur-2xl z-40 sticky top-0">
+    <>
+      {/* Desktop & Top Header Navigation */}
+      <header className="w-full flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-navy-400/20 glass-4 z-40 sticky top-0">
 
-      {/* Brand */}
-      <div
-        className="flex items-center gap-2.5 cursor-pointer group"
-        onClick={() => handleMobileNav('discover')}
-      >
-        <div className="relative w-6 h-6">
-          <div className="absolute inset-0 rounded-full border border-parchment/30 border-dashed animate-spin-slow" />
-          <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-sage-signal group-hover:scale-110 transition-transform" />
-          <div className="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-clay-thread" />
-        </div>
-        <span className="font-serif text-xl tracking-wide text-parchment group-hover:text-white transition-colors">
-          half-formed
-        </span>
-      </div>
-
-      {/* Desktop Nav Links */}
-      <nav className="hidden md:flex items-center gap-6">
-        <button
+        {/* Brand */}
+        <div
+          className="flex items-center gap-2.5 cursor-pointer group"
           onClick={() => onNavigate('discover')}
-          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
-            currentView === 'discover' ? 'text-sage-signal font-semibold' : 'text-ash hover:text-parchment'
-          }`}
         >
-          <Compass size={15} /> Discover
-        </button>
+          <div className="relative w-6 h-6">
+            <div className="absolute inset-0 rounded-full border border-navy-400/40 border-dashed animate-spin-slow" />
+            <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-crimson-700 dark:bg-crimson-400 group-hover:scale-110 transition-transform" />
+            <div className="absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full bg-navy-400" />
+          </div>
+          <span className="font-serif text-xl tracking-wide text-navy-900 dark:text-navy-100 font-bold group-hover:text-crimson-700 dark:group-hover:text-crimson-400 transition-colors">
+            half-formed
+          </span>
+        </div>
 
-        <button
-          onClick={() => onNavigate('gallery')}
-          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
-            currentView === 'gallery' ? 'text-philosophy-gold font-semibold' : 'text-ash hover:text-parchment'
-          }`}
-        >
-          <Images size={15} /> Gallery
-        </button>
+        {/* Desktop Nav Links with HIG Spring Underline */}
+        <nav className="hidden md:flex items-center gap-2 bg-navy-900/10 dark:bg-navy-800/40 p-1 rounded-full border border-navy-400/20">
+          {navItems.map(({ key, label, icon: Icon }) => {
+            const isActive = currentView === key;
+            return (
+              <button
+                key={key}
+                onClick={() => onNavigate(key)}
+                className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-medium transition-colors flex items-center gap-1.5 ${
+                  isActive ? 'text-navy-900 dark:text-navy-100 font-bold' : 'text-navy-400 hover:text-navy-900 dark:hover:text-navy-100'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTabIndicator"
+                    className="absolute inset-0 bg-white/80 dark:bg-navy-700/80 rounded-full shadow-sm"
+                    transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <Icon size={14} /> {label}
+                </span>
+              </button>
+            );
+          })}
 
-        <button
-          onClick={() => onNavigate('articles')}
-          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
-            currentView === 'articles' ? 'text-clay-thread font-semibold' : 'text-ash hover:text-parchment'
-          }`}
-        >
-          <BookOpen size={15} /> Articles
-        </button>
+          {isAuthenticated && (
+            <button
+              onClick={() => onNavigate('start')}
+              className={`relative px-4 py-1.5 rounded-full text-xs font-mono transition-colors flex items-center gap-1.5 ${
+                currentView === 'start' ? 'text-navy-900 dark:text-navy-100 font-bold' : 'text-navy-400 hover:text-navy-900 dark:hover:text-navy-100'
+              }`}
+            >
+              {currentView === 'start' && (
+                <motion.div
+                  layoutId="activeTabIndicator"
+                  className="absolute inset-0 bg-white/80 dark:bg-navy-700/80 rounded-full shadow-sm"
+                  transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                <Plus size={14} /> Start Pod
+              </span>
+            </button>
+          )}
+        </nav>
 
-        <button
-          onClick={() => onNavigate('archive')}
-          className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
-            currentView === 'archive' ? 'text-dusk-lavender font-semibold' : 'text-ash hover:text-parchment'
-          }`}
-        >
-          <Library size={15} /> Archive
-        </button>
+        {/* Header Actions (Verticals, Theme Toggle, Art Lab, Profile) */}
+        <div className="flex items-center gap-2.5">
+
+          {/* Verticals Search & Manage Button */}
+          <button
+            onClick={onOpenTopicManager}
+            className="flex items-center gap-1 text-xs font-mono text-navy-400 hover:text-navy-900 dark:hover:text-navy-100 px-2.5 py-1.5 rounded-full border border-navy-400/20 hover:border-navy-400/40 transition-colors"
+            title="Explore & Manage Verticals"
+          >
+            <Tag size={13} /> <span className="hidden sm:inline">Verticals</span>
+          </button>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full text-navy-400 hover:text-navy-900 dark:hover:text-navy-100 border border-navy-400/20 hover:border-navy-400/40 transition-all interactive-scale"
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+          >
+            {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-navy-800" />}
+          </button>
+
+          {/* Art Lab Button */}
+          <button
+            onClick={onOpenArtLab}
+            className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider bg-crimson-700 text-white dark:bg-navy-700 dark:text-navy-100 py-1.5 px-3 rounded-full transition-all shadow-md interactive-scale border border-white/10"
+          >
+            <Sparkles size={13} className="animate-pulse" /> Art Lab
+          </button>
+
+          {/* User Profile / Sign In */}
+          {isAuthenticated && user ? (
+            <div
+              onClick={() => onNavigate('profile')}
+              className="flex items-center gap-2 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-1 px-1.5 rounded-full transition-colors"
+            >
+              <div className="w-7 h-7 rounded-full bg-crimson-700 dark:bg-navy-400 text-white font-bold text-xs uppercase flex items-center justify-center overflow-hidden border border-white/20">
+                {user.avatar_url ? (
+                  <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  (user.display_name || user.handle || '??').substring(0, 2)
+                )}
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => onNavigate('onboarding')}
+              className="flex items-center gap-1 text-xs font-mono uppercase bg-navy-800 text-navy-100 dark:bg-navy-100 dark:text-navy-900 font-bold py-1.5 px-3 rounded-full transition-colors interactive-scale"
+            >
+              <User size={13} /> Sign In
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* HIG Mobile Bottom Tab Bar (Fixed at bottom on phones) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 glass-4 border-t border-navy-400/20 px-3 py-2 flex items-center justify-around z-40 pb-safe">
+        {navItems.map(({ key, label, icon: Icon }) => {
+          const isActive = currentView === key;
+          return (
+            <button
+              key={key}
+              onClick={() => onNavigate(key)}
+              className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-all ${
+                isActive ? 'text-crimson-700 dark:text-navy-100 font-bold scale-105' : 'text-navy-400'
+              }`}
+            >
+              <Icon size={18} />
+              <span className="text-[10px] font-mono tracking-tight">{label}</span>
+            </button>
+          );
+        })}
 
         {isAuthenticated && (
           <button
             onClick={() => onNavigate('start')}
-            className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors ${
-              currentView === 'start' ? 'text-sage-signal font-semibold' : 'text-ash hover:text-parchment'
+            className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-all ${
+              currentView === 'start' ? 'text-crimson-700 dark:text-navy-100 font-bold scale-105' : 'text-navy-400'
             }`}
           >
-            <Plus size={15} /> Start Pod
+            <Plus size={18} />
+            <span className="text-[10px] font-mono tracking-tight">Start</span>
           </button>
         )}
       </nav>
-
-      {/* Actions (Art Lab & Profile/Sign-in) */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={onOpenArtLab}
-          className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-parchment/10 hover:bg-parchment/20 text-parchment py-1.5 sm:py-2 px-3 sm:px-3.5 rounded-full transition-all border border-parchment/10 shadow-sm"
-        >
-          <Sparkles size={14} className="text-philosophy-gold animate-pulse" /> Art Lab
-        </button>
-
-        {isAuthenticated && user ? (
-          <div
-            onClick={() => onNavigate('profile')}
-            className="flex items-center gap-2 cursor-pointer hover:bg-white/5 p-1 px-2 rounded-full transition-colors"
-          >
-            <div className="w-8 h-8 rounded-full bg-harbor-teal flex items-center justify-center text-ink-deep font-bold text-xs uppercase overflow-hidden border border-white/20">
-              {user.avatar_url ? (
-                <img src={user.avatar_url} alt={user.display_name || user.handle} className="w-full h-full object-cover" />
-              ) : (
-                (user.display_name || user.handle || '??').substring(0, 2)
-              )}
-            </div>
-            <span className="text-sm text-ash hidden lg:block font-mono">
-              {user.display_name || `@${user.handle}`}
-            </span>
-          </div>
-        ) : (
-          <button
-            onClick={() => onNavigate('onboarding')}
-            className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider bg-sage-signal text-ink-deep font-bold py-1.5 sm:py-2 px-3.5 sm:px-4 rounded-full hover:bg-white transition-colors"
-          >
-            <User size={14} /> Sign In
-          </button>
-        )}
-
-        {/* Mobile Hamburger Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-ash hover:text-parchment p-1 rounded-lg"
-        >
-          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[64px] left-0 right-0 glass-panel border-b border-white/10 p-5 shadow-2xl flex flex-col gap-4 z-50">
-          <button
-            onClick={() => handleMobileNav('discover')}
-            className={`flex items-center gap-3 text-sm font-medium py-2 ${
-              currentView === 'discover' ? 'text-sage-signal font-semibold' : 'text-ash'
-            }`}
-          >
-            <Compass size={18} /> Discover Pods
-          </button>
-          <button
-            onClick={() => handleMobileNav('gallery')}
-            className={`flex items-center gap-3 text-sm font-medium py-2 ${
-              currentView === 'gallery' ? 'text-philosophy-gold font-semibold' : 'text-ash'
-            }`}
-          >
-            <Images size={18} /> Thoughts Gallery
-          </button>
-          <button
-            onClick={() => handleMobileNav('articles')}
-            className={`flex items-center gap-3 text-sm font-medium py-2 ${
-              currentView === 'articles' ? 'text-clay-thread font-semibold' : 'text-ash'
-            }`}
-          >
-            <BookOpen size={18} /> Community Articles
-          </button>
-          <button
-            onClick={() => handleMobileNav('archive')}
-            className={`flex items-center gap-3 text-sm font-medium py-2 ${
-              currentView === 'archive' ? 'text-dusk-lavender font-semibold' : 'text-ash'
-            }`}
-          >
-            <Library size={18} /> Pod Archive
-          </button>
-          {isAuthenticated && (
-            <button
-              onClick={() => handleMobileNav('start')}
-              className={`flex items-center gap-3 text-sm font-medium py-2 ${
-                currentView === 'start' ? 'text-sage-signal font-semibold' : 'text-ash'
-              }`}
-            >
-              <Plus size={18} /> Start New Pod
-            </button>
-          )}
-        </div>
-      )}
-    </header>
+    </>
   );
 }

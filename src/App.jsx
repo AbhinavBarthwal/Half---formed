@@ -11,6 +11,8 @@ import OnboardingView from './views/OnboardingView.jsx';
 import ImageArtLab from './components/ImageArtLab.jsx';
 import ThoughtsGallery from './components/ThoughtsGallery.jsx';
 import ArticlesView from './views/ArticlesView.jsx';
+import TopicManagerModal from './components/TopicManagerModal.jsx';
+import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import { useAuth } from './hooks/useAuth.js';
 import { Loader2 } from 'lucide-react';
 
@@ -21,10 +23,11 @@ const viewTransition = {
   transition: { duration: 0.3, type: 'spring', damping: 26 },
 };
 
-export default function App() {
+function MainAppContent() {
   const [currentView, setCurrentView] = useState('discover');
   const [activePod, setActivePod] = useState(null);
   const [artLabOpen, setArtLabOpen] = useState(false);
+  const [topicManagerOpen, setTopicManagerOpen] = useState(false);
   const [podPrefill, setPodPrefill] = useState(null);
   const [showSplash, setShowSplash] = useState(() => !localStorage.getItem('hf_seen_splash'));
 
@@ -62,16 +65,16 @@ export default function App() {
   // Show loading spinner while checking auth
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-ink-deep">
-        <Loader2 className="animate-spin text-sage-signal" size={32} />
+      <div className="min-h-screen flex items-center justify-center bg-navy-900 text-navy-100">
+        <Loader2 className="animate-spin text-crimson-700 dark:text-navy-400" size={32} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans overflow-hidden bg-ink-deep text-parchment relative">
+    <div className="min-h-screen flex flex-col font-sans overflow-hidden bg-var-hf-bg text-var-hf-text relative">
 
-      {/* Intro Splash Screen for first-time visitors */}
+      {/* Intro Splash Screen */}
       <AnimatePresence>
         {showSplash && (
           <SplashScreen
@@ -87,6 +90,7 @@ export default function App() {
         user={user}
         isAuthenticated={isAuthenticated}
         onOpenArtLab={() => setArtLabOpen(true)}
+        onOpenTopicManager={() => setTopicManagerOpen(true)}
       />
 
       <main className="flex-1 relative w-full h-full">
@@ -95,6 +99,7 @@ export default function App() {
             <motion.div key="discover" {...viewTransition} className="absolute inset-0">
               <DiscoverView
                 user={user}
+                onOpenTopicManager={() => setTopicManagerOpen(true)}
                 onEnterPod={(pod) => {
                   if (!isAuthenticated) { navigateTo('onboarding'); return; }
                   navigateTo('pod', pod);
@@ -172,6 +177,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
+      {/* Art Lab Modal */}
       <AnimatePresence>
         {artLabOpen && (
           <ImageArtLab
@@ -183,6 +189,27 @@ export default function App() {
           />
         )}
       </AnimatePresence>
+
+      {/* Topic Verticals Search & Management Modal */}
+      <AnimatePresence>
+        {topicManagerOpen && (
+          <TopicManagerModal
+            onClose={() => setTopicManagerOpen(false)}
+            onSelectTopic={(slug) => {
+              setTopicManagerOpen(false);
+              navigateTo('discover');
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <MainAppContent />
+    </ThemeProvider>
   );
 }
