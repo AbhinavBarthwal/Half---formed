@@ -123,23 +123,23 @@ export default function PodRoomView({ pod, user, onBack }) {
       )}
 
       {/* Header */}
-      <header className="flex-shrink-0 flex items-center justify-between p-4 border-b border-white/10 bg-black/40 backdrop-blur-xl z-20">
-        <button onClick={onBack} className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-ash hover:text-parchment transition-colors">
+      <header className="flex-shrink-0 flex items-center justify-between p-4 border-b border-slateContrast-300/30 dark:border-navy-400/20 glass-4 z-20">
+        <button onClick={onBack} className="flex items-center gap-2 text-xs font-mono uppercase font-bold tracking-wider text-slateContrast-700 dark:text-slateContrast-300 hover:text-slateContrast-900 dark:hover:text-white transition-colors">
           <ArrowLeft size={16} /> Back
         </button>
 
         <div className="flex flex-col items-center text-center max-w-md px-2">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-widest font-mono font-semibold" style={{ color: p.topic?.color }}>
+            <span className="text-[10px] uppercase tracking-widest font-mono font-extrabold" style={{ color: p.topic?.color || '#c1121f' }}>
               {p.topic?.name}
             </span>
             {isClosed && (
-              <span className="text-[10px] uppercase tracking-widest font-mono bg-philosophy-gold/20 text-philosophy-gold border border-philosophy-gold/30 px-2 py-0.5 rounded-full font-bold">
+              <span className="text-[10px] uppercase tracking-widest font-mono bg-crimson-700/20 text-crimson-800 dark:text-crimson-300 border border-crimson-700/30 px-2 py-0.5 rounded-full font-extrabold">
                 Fully Formed ✓
               </span>
             )}
           </div>
-          <h2 className="font-serif text-base sm:text-lg md:text-xl text-parchment truncate">{p.title}</h2>
+          <h2 className="font-serif text-base sm:text-lg md:text-xl text-slateContrast-900 dark:text-slateContrast-50 font-bold truncate">{p.title}</h2>
         </div>
 
         <div className="flex items-center gap-2">
@@ -178,8 +178,8 @@ export default function PodRoomView({ pod, user, onBack }) {
                   )}
                 </div>
                 <div>
-                  <p className="text-xs text-parchment font-semibold">{m.profiles?.display_name || `@${m.profiles?.handle}`}</p>
-                  {m.profiles?.display_name && <p className="text-[10px] text-ash font-mono">@{m.profiles?.handle}</p>}
+                  <p className="text-xs text-slateContrast-900 dark:text-slateContrast-50 font-bold">{m.profiles?.display_name || `@${m.profiles?.handle}`}</p>
+                  {m.profiles?.display_name && <p className="text-[10px] text-slateContrast-700 dark:text-slateContrast-300 font-mono font-bold">@{m.profiles?.handle}</p>}
                 </div>
               </li>
             ))}
@@ -193,19 +193,19 @@ export default function PodRoomView({ pod, user, onBack }) {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="lg:hidden absolute top-0 left-0 right-0 z-30 glass-panel border-b border-white/10 p-4 shadow-2xl max-h-60 overflow-y-auto"
+              className="lg:hidden absolute top-0 left-0 right-0 z-30 glass-3 border-b border-slateContrast-300/30 dark:border-navy-400/20 p-4 shadow-2xl max-h-60 overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-3">
-                <span className="text-xs font-mono uppercase text-ash">Pod Members ({members.length})</span>
-                <button onClick={() => setShowMobileMembers(false)} className="text-ash"><X size={16} /></button>
+                <span className="text-xs font-mono uppercase text-slateContrast-700 dark:text-slateContrast-300 font-bold">Pod Members ({members.length})</span>
+                <button onClick={() => setShowMobileMembers(false)} className="text-slateContrast-700 dark:text-slateContrast-300 font-bold"><X size={16} /></button>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {members.map((m) => (
                   <div key={m.user_id} className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-harbor-teal text-ink-deep font-bold text-[10px] flex items-center justify-center overflow-hidden">
+                    <div className="w-6 h-6 rounded-full bg-crimson-700 dark:bg-navy-400 text-white font-bold text-[10px] flex items-center justify-center overflow-hidden">
                       {m.profiles?.avatar_url ? <img src={m.profiles.avatar_url} alt="" className="w-full h-full object-cover" /> : (m.profiles?.handle || '??').substring(0, 2)}
                     </div>
-                    <span className="text-xs text-parchment font-mono truncate">@{m.profiles?.handle}</span>
+                    <span className="text-xs text-slateContrast-900 dark:text-slateContrast-50 font-mono font-bold truncate">@{m.profiles?.handle}</span>
                   </div>
                 ))}
               </div>
@@ -219,19 +219,19 @@ export default function PodRoomView({ pod, user, onBack }) {
 
             {/* Seed prompt */}
             {p.seedPrompt && (
-              <div className="glass-card p-5 rounded-2xl border border-white/10 text-center mb-2">
-                <span className="text-[10px] uppercase font-mono text-ash tracking-widest block mb-1">Seed Question</span>
-                <p className="text-parchment font-serif text-lg italic">"{p.seedPrompt}"</p>
+              <div className="glass-2 p-5 rounded-2xl border border-slateContrast-300/30 dark:border-navy-400/20 text-center mb-2">
+                <span className="text-[10px] uppercase font-mono text-slateContrast-700 dark:text-slateContrast-300 font-extrabold tracking-widest block mb-1">Seed Question</span>
+                <p className="text-slateContrast-900 dark:text-slateContrast-50 font-serif text-lg font-bold italic">"{p.seedPrompt}"</p>
               </div>
             )}
 
             {/* Closing statement banner if fully formed */}
             {isClosed && (
-              <div className="glass-panel p-6 rounded-2xl border border-philosophy-gold/40 bg-philosophy-gold/5 text-center my-2 space-y-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-philosophy-gold font-bold flex items-center justify-center gap-1.5">
+              <div className="glass-2 p-6 rounded-2xl border border-crimson-700/40 bg-crimson-700/5 text-center my-2 space-y-2">
+                <span className="text-xs font-mono uppercase tracking-widest text-crimson-800 dark:text-crimson-300 font-extrabold flex items-center justify-center gap-1.5">
                   <Award size={16} /> Fully Formed Conclusion
                 </span>
-                <p className="font-serif text-lg text-parchment italic">
+                <p className="font-serif text-lg text-slateContrast-900 dark:text-slateContrast-50 font-bold italic">
                   "{p.closingStatement || 'This conversation reached clarity and concluded.'}"
                 </p>
               </div>
@@ -239,16 +239,16 @@ export default function PodRoomView({ pod, user, onBack }) {
 
             {/* 10-message graduation prompt banner for creator */}
             {messages.length >= 10 && !isClosed && isCreator && (
-              <div className="glass-panel p-4 rounded-2xl border border-sage-signal/30 bg-sage-signal/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+              <div className="glass-2 p-4 rounded-2xl border border-crimson-700/40 bg-crimson-700/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
                 <div>
-                  <h4 className="font-serif text-parchment font-semibold text-sm flex items-center gap-1.5 justify-center sm:justify-start">
-                    <Sparkles size={16} className="text-sage-signal" /> 10 Responses Completed
+                  <h4 className="font-serif text-slateContrast-900 dark:text-slateContrast-50 font-extrabold text-sm flex items-center gap-1.5 justify-center sm:justify-start">
+                    <Sparkles size={16} className="text-crimson-700 dark:text-crimson-400" /> 10 Responses Completed
                   </h4>
-                  <p className="text-xs text-ash">Has this thought turned from half-formed to fully formed?</p>
+                  <p className="text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">Has this thought turned from half-formed to fully formed?</p>
                 </div>
                 <button
                   onClick={() => setShowGraduateModal(true)}
-                  className="px-4 py-2 bg-sage-signal text-ink-deep font-bold rounded-full text-xs hover:bg-white transition-colors shadow-lg flex-shrink-0"
+                  className="px-4 py-2 bg-crimson-700 text-white font-bold rounded-full text-xs hover:bg-crimson-900 transition-colors shadow-lg flex-shrink-0"
                 >
                   Graduate & Close Pod →
                 </button>
@@ -257,13 +257,13 @@ export default function PodRoomView({ pod, user, onBack }) {
 
             {loading && (
               <div className="flex justify-center py-12">
-                <Loader2 className="animate-spin text-ash" size={24} />
+                <Loader2 className="animate-spin text-slateContrast-600 dark:text-slateContrast-400" size={24} />
               </div>
             )}
 
             {!loading && timelineItems.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-ash font-mono text-sm">No messages yet. Be the first to share a thought.</p>
+                <p className="text-slateContrast-700 dark:text-slateContrast-300 font-mono text-sm font-bold">No messages yet. Be the first to share a thought.</p>
               </div>
             )}
 
@@ -290,10 +290,10 @@ export default function PodRoomView({ pod, user, onBack }) {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ type: 'spring', damping: 20 }}
-                    className="group relative glass-card p-5 rounded-2xl border border-white/5"
+                    className="group relative glass-2 p-5 rounded-2xl border border-slateContrast-300/30 dark:border-navy-400/20"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-8 rounded-full bg-harbor-teal text-ink-deep font-bold text-xs flex items-center justify-center uppercase overflow-hidden border border-white/10 flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-crimson-700 dark:bg-navy-400 text-white font-bold text-xs flex items-center justify-center uppercase overflow-hidden border border-white/20 flex-shrink-0">
                         {msg.author.avatarUrl ? (
                           <img src={msg.author.avatarUrl} alt={msg.author.displayName || msg.author.handle} className="w-full h-full object-cover" />
                         ) : (
@@ -301,28 +301,28 @@ export default function PodRoomView({ pod, user, onBack }) {
                         )}
                       </div>
                       <div>
-                        <span className="text-sm font-semibold text-parchment font-mono">
+                        <span className="text-sm font-bold text-slateContrast-900 dark:text-slateContrast-50 font-mono">
                           {msg.author.displayName || `@${msg.author.handle}`}
                         </span>
                         {msg.author.displayName && (
-                          <span className="text-[11px] font-mono text-ash ml-2">@{msg.author.handle}</span>
+                          <span className="text-[11px] font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300 ml-2">@{msg.author.handle}</span>
                         )}
                       </div>
                       {msg.replyMode === 'steelman' && (
-                        <span className="text-[10px] uppercase font-mono tracking-wider bg-sage-signal/15 text-sage-signal border border-sage-signal/30 px-2 py-0.5 rounded ml-auto sm:ml-0">
+                        <span className="text-[10px] uppercase font-mono font-extrabold tracking-wider bg-crimson-700/15 text-crimson-800 dark:text-crimson-300 border border-crimson-700/30 px-2 py-0.5 rounded ml-auto sm:ml-0">
                           Steelman First
                         </span>
                       )}
                       {msg.replyMode === 'question' && (
-                        <span className="text-[10px] uppercase font-mono tracking-wider bg-dusk-lavender/15 text-dusk-lavender border border-dusk-lavender/30 px-2 py-0.5 rounded">
+                        <span className="text-[10px] uppercase font-mono font-extrabold tracking-wider bg-navy-700/15 text-navy-900 dark:text-navy-300 border border-navy-700/30 px-2 py-0.5 rounded">
                           Question
                         </span>
                       )}
-                      <span className="text-[10px] font-mono text-ash/50 ml-auto">
+                      <span className="text-[10px] font-mono font-bold text-slateContrast-600 dark:text-slateContrast-400 ml-auto">
                         {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
-                    <p className="text-base sm:text-lg leading-relaxed text-parchment/90">{msg.content}</p>
+                    <p className="text-base sm:text-lg leading-relaxed text-slateContrast-900 dark:text-slateContrast-100 font-medium">{msg.content}</p>
 
                     {/* Reactions */}
                     <div className="flex flex-wrap gap-2 mt-4 opacity-90 transition-opacity">

@@ -106,7 +106,6 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
   const handleAttachThought = async () => {
     setAttaching(true);
     try {
-      // Direct canvas upload — works for Halftone, ASCII, and Original!
       const imageUrl = await uploadCanvas(canvasRef.current, 'art_thoughts');
 
       const thought = await createThought({
@@ -125,52 +124,52 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-xl overflow-y-auto">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="w-full max-w-5xl max-h-[92vh] glass-panel rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-white/15 my-auto"
+        className="w-full max-w-5xl max-h-[92vh] glass-3 rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-slateContrast-300/40 dark:border-navy-400/30 my-auto"
       >
         {/* Left Controls Panel */}
-        <div className="w-full md:w-80 border-b md:border-b-0 md:border-r border-white/10 p-5 sm:p-6 flex flex-col gap-5 overflow-y-auto bg-black/40 max-h-[50vh] md:max-h-none">
+        <div className="w-full md:w-80 border-b md:border-b-0 md:border-r border-slateContrast-300/30 dark:border-navy-400/20 p-5 sm:p-6 flex flex-col gap-5 overflow-y-auto glass-2 max-h-[50vh] md:max-h-none">
           <div className="flex items-center justify-between">
-            <h2 className="font-serif text-xl flex items-center gap-2 text-parchment font-medium">
-              <Palette size={18} className="text-philosophy-gold" /> Visual Art Lab
+            <h2 className="font-serif text-xl flex items-center gap-2 text-slateContrast-900 dark:text-slateContrast-50 font-extrabold">
+              <Palette size={18} className="text-crimson-700 dark:text-crimson-400" /> Visual Art Lab
             </h2>
-            <button onClick={onClose} className="md:hidden text-ash hover:text-white p-1"><X size={20} /></button>
+            <button onClick={onClose} className="md:hidden text-slateContrast-700 dark:text-slateContrast-300 p-1 font-bold"><X size={20} /></button>
           </div>
 
           {/* 1. Source Image */}
           <div className="space-y-2">
-            <h3 className="text-[10px] uppercase tracking-widest font-mono text-ash font-semibold">1. Source Photo</h3>
+            <h3 className="text-[10px] uppercase tracking-widest font-mono text-slateContrast-700 dark:text-slateContrast-300 font-extrabold">1. Source Photo</h3>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="w-full py-4 border border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center text-ash hover:text-parchment hover:border-parchment hover:bg-white/5 transition-all cursor-pointer"
+              className="w-full py-4 border border-dashed border-slateContrast-400/40 dark:border-navy-400/30 rounded-2xl flex flex-col items-center justify-center text-slateContrast-700 dark:text-slateContrast-300 hover:text-crimson-900 dark:hover:text-white hover:border-crimson-700 hover:bg-black/5 dark:hover:bg-white/5 transition-all cursor-pointer font-bold"
             >
-              <Upload size={18} className="mb-1 text-sage-signal" />
+              <Upload size={18} className="mb-1 text-crimson-700 dark:text-crimson-400" />
               <span className="text-xs font-mono">Upload Custom Photo</span>
             </button>
             <input type="file" ref={fileInputRef} onChange={handleUpload} accept="image/*" className="hidden" />
             
             <div className="flex gap-2 pt-1">
-              <button onClick={() => setImageSrc('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop')} className="flex-1 py-1.5 text-[11px] font-mono bg-white/5 hover:bg-white/10 rounded-xl text-parchment border border-white/10 transition-colors">Preset 1</button>
-              <button onClick={() => setImageSrc('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=400&auto=format&fit=crop')} className="flex-1 py-1.5 text-[11px] font-mono bg-white/5 hover:bg-white/10 rounded-xl text-parchment border border-white/10 transition-colors">Preset 2</button>
+              <button onClick={() => setImageSrc('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop')} className="flex-1 py-1.5 text-[11px] font-mono font-bold bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl text-slateContrast-900 dark:text-slateContrast-100 border border-slateContrast-300/40 dark:border-navy-400/20 transition-colors">Preset 1</button>
+              <button onClick={() => setImageSrc('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=400&auto=format&fit=crop')} className="flex-1 py-1.5 text-[11px] font-mono font-bold bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl text-slateContrast-900 dark:text-slateContrast-100 border border-slateContrast-300/40 dark:border-navy-400/20 transition-colors">Preset 2</button>
             </div>
           </div>
 
           {/* 2. Render Mode */}
           <div className="space-y-2">
-            <h3 className="text-[10px] uppercase tracking-widest font-mono text-ash font-semibold">2. Filter Effect</h3>
+            <h3 className="text-[10px] uppercase tracking-widest font-mono text-slateContrast-700 dark:text-slateContrast-300 font-extrabold">2. Filter Effect</h3>
             <div className="grid grid-cols-3 gap-2">
-              <button onClick={() => setMode('original')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'original' ? 'border-sage-signal bg-sage-signal/15 text-sage-signal font-semibold' : 'border-white/10 text-ash hover:bg-white/5'}`}>
+              <button onClick={() => setMode('original')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'original' ? 'border-crimson-700 bg-crimson-700 text-white font-extrabold' : 'border-slateContrast-300/40 dark:border-navy-400/20 text-slateContrast-800 dark:text-slateContrast-200 hover:bg-black/5'}`}>
                 <Circle size={14} className="mx-auto mb-1" /> <span className="text-[11px] font-mono">Original</span>
               </button>
-              <button onClick={() => setMode('halftone')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'halftone' ? 'border-clay-thread bg-clay-thread/15 text-clay-thread font-semibold' : 'border-white/10 text-ash hover:bg-white/5'}`}>
+              <button onClick={() => setMode('halftone')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'halftone' ? 'border-crimson-700 bg-crimson-700 text-white font-extrabold' : 'border-slateContrast-300/40 dark:border-navy-400/20 text-slateContrast-800 dark:text-slateContrast-200 hover:bg-black/5'}`}>
                 <Hash size={14} className="mx-auto mb-1" /> <span className="text-[11px] font-mono">Halftone</span>
               </button>
-              <button onClick={() => setMode('ascii')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'ascii' ? 'border-dusk-lavender bg-dusk-lavender/15 text-dusk-lavender font-semibold' : 'border-white/10 text-ash hover:bg-white/5'}`}>
+              <button onClick={() => setMode('ascii')} className={`p-2.5 rounded-xl border text-center transition-all ${mode === 'ascii' ? 'border-crimson-700 bg-crimson-700 text-white font-extrabold' : 'border-slateContrast-300/40 dark:border-navy-400/20 text-slateContrast-800 dark:text-slateContrast-200 hover:bg-black/5'}`}>
                 <Type size={14} className="mx-auto mb-1" /> <span className="text-[11px] font-mono">ASCII</span>
               </button>
             </div>
@@ -178,28 +177,28 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
 
           {/* 3. Density */}
           <div className="space-y-2">
-            <div className="flex justify-between items-center text-[10px] font-mono uppercase text-ash">
+            <div className="flex justify-between items-center text-[10px] font-mono uppercase text-slateContrast-700 dark:text-slateContrast-300 font-extrabold">
               <span>3. Grid Resolution</span>
-              <span className="text-sage-signal">{density}%</span>
+              <span className="text-crimson-700 dark:text-crimson-400">{density}%</span>
             </div>
             <input 
               type="range" min="10" max="90" 
               value={density} onChange={(e) => setDensity(Number(e.target.value))}
-              className="w-full accent-sage-signal cursor-pointer"
+              className="w-full accent-crimson-700 dark:accent-navy-300 cursor-pointer"
             />
           </div>
 
           {/* 4. Add Thought Caption */}
-          <div className="space-y-2 pt-2 border-t border-white/10">
-            <h3 className="text-[10px] uppercase tracking-widest font-mono text-ash font-semibold flex items-center gap-1">
-              <MessageSquare size={12} className="text-philosophy-gold" /> Attach Thought
+          <div className="space-y-2 pt-2 border-t border-slateContrast-300/30 dark:border-navy-400/20">
+            <h3 className="text-[10px] uppercase tracking-widest font-mono text-slateContrast-700 dark:text-slateContrast-300 font-extrabold flex items-center gap-1">
+              <MessageSquare size={12} className="text-crimson-700 dark:text-crimson-400" /> Attach Thought
             </h3>
             <textarea
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
               placeholder="Add your initial thought to this art piece..."
               rows={2}
-              className="w-full glass-input rounded-xl p-2.5 text-xs text-parchment placeholder-ash/50 outline-none resize-none"
+              className="w-full glass-input rounded-xl p-2.5 text-xs outline-none resize-none font-medium"
             />
           </div>
 
@@ -207,18 +206,18 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
           <button
             onClick={handleAttachThought}
             disabled={attaching}
-            className="hidden md:flex w-full py-3 bg-parchment text-ink-deep font-semibold text-xs rounded-2xl hover:bg-white transition-all shadow-xl items-center justify-center gap-2 mt-auto disabled:opacity-50"
+            className="hidden md:flex w-full py-3 bg-slateContrast-900 text-white dark:bg-slateContrast-50 dark:text-slateContrast-900 font-bold text-xs rounded-2xl hover:opacity-90 transition-all shadow-xl items-center justify-center gap-2 mt-auto disabled:opacity-50 interactive-scale"
           >
             {attaching ? <Loader2 className="animate-spin" size={16} /> : <><Sparkles size={14} /> Turn Art into Thought →</>}
           </button>
         </div>
 
         {/* Right Canvas Display Area */}
-        <div className="flex-1 relative flex flex-col items-center justify-center p-4 sm:p-6 min-h-[350px] md:min-h-none overflow-hidden bg-black/20">
-          <button onClick={onClose} className="absolute top-4 right-4 hidden md:block text-ash hover:text-white bg-black/40 p-2 rounded-full backdrop-blur-md z-10 border border-white/10"><X size={18} /></button>
+        <div className="flex-1 relative flex flex-col items-center justify-center p-4 sm:p-6 min-h-[350px] md:min-h-none overflow-hidden bg-black/40">
+          <button onClick={onClose} className="absolute top-4 right-4 hidden md:block text-white hover:text-gray-200 bg-black/60 p-2 rounded-full backdrop-blur-md z-10 border border-white/20"><X size={18} /></button>
           
           <div className="w-full h-full flex items-center justify-center relative my-auto">
-            <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/10 block" />
+            <canvas ref={canvasRef} className="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl border border-white/20 block" />
           </div>
 
           {/* Mobile attach CTA */}
@@ -226,7 +225,7 @@ export default function ImageArtLab({ onClose, onThoughtCreated }) {
             <button
               onClick={handleAttachThought}
               disabled={attaching}
-              className="w-full py-3 bg-parchment text-ink-deep font-semibold text-xs rounded-2xl hover:bg-white transition-all shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3 bg-slateContrast-900 text-white dark:bg-slateContrast-50 dark:text-slateContrast-900 font-bold text-xs rounded-2xl hover:opacity-90 transition-all shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {attaching ? <Loader2 className="animate-spin" size={16} /> : <><Sparkles size={14} /> Turn Art into Thought →</>}
             </button>

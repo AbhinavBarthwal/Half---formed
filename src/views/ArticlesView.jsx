@@ -7,65 +7,65 @@ import { useImageUpload } from '../hooks/useImageUpload.js';
 
 function ArticleReaderModal({ article, onClose, onSpawnPod }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
-        className="w-full max-w-3xl glass-panel rounded-3xl overflow-hidden border border-white/15 shadow-2xl my-auto max-h-[90vh] flex flex-col"
+        className="w-full max-w-3xl glass-3 rounded-3xl overflow-hidden border border-slateContrast-300/40 dark:border-navy-400/30 shadow-2xl my-auto max-h-[90vh] flex flex-col"
       >
         {/* Banner header */}
         {article.coverImageUrl && (
           <div className="h-48 sm:h-64 w-full relative overflow-hidden flex-shrink-0">
             <img src={article.coverImageUrl} alt={article.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/40 to-transparent" />
-            <button onClick={onClose} className="absolute top-4 right-4 text-ash hover:text-white bg-black/50 p-2 rounded-full backdrop-blur-md"><X size={18} /></button>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+            <button onClick={onClose} className="absolute top-4 right-4 text-white hover:text-gray-200 bg-black/60 p-2 rounded-full backdrop-blur-md"><X size={18} /></button>
           </div>
         )}
 
-        <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
+        <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6 glass-2">
           {!article.coverImageUrl && (
             <div className="flex justify-end">
-              <button onClick={onClose} className="text-ash hover:text-white"><X size={20} /></button>
+              <button onClick={onClose} className="text-slateContrast-700 dark:text-slateContrast-300 font-bold"><X size={20} /></button>
             </div>
           )}
 
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-xs font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-white/10 bg-black/40 font-semibold" style={{ color: article.topic?.accent_hex || '#8B9490' }}>
+              <span className="text-xs font-mono uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full border border-slateContrast-300/40 dark:border-navy-400/30 bg-black/10 dark:bg-white/10" style={{ color: article.topic?.accent_hex || '#c1121f' }}>
                 {article.topic?.name}
               </span>
-              <span className="text-xs font-mono text-ash flex items-center gap-1">
+              <span className="text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300 flex items-center gap-1">
                 <Clock size={12} /> {new Date(article.createdAt).toLocaleDateString()}
               </span>
             </div>
 
-            <h1 className="font-serif text-2xl sm:text-4xl text-parchment leading-tight font-medium">
+            <h1 className="font-serif text-2xl sm:text-4xl text-slateContrast-900 dark:text-slateContrast-50 leading-tight font-extrabold">
               {article.title}
             </h1>
 
-            <div className="flex items-center gap-2.5 mt-4 pt-4 border-t border-white/10">
-              <div className="w-8 h-8 rounded-full bg-harbor-teal text-ink-deep font-bold text-xs flex items-center justify-center overflow-hidden border border-white/10">
+            <div className="flex items-center gap-2.5 mt-4 pt-4 border-t border-slateContrast-300/30 dark:border-navy-400/20">
+              <div className="w-8 h-8 rounded-full bg-crimson-700 dark:bg-navy-400 text-white font-bold text-xs flex items-center justify-center overflow-hidden border border-white/20">
                 {article.author.avatarUrl ? <img src={article.author.avatarUrl} alt="" className="w-full h-full object-cover" /> : (article.author.displayName || article.author.handle)[0]}
               </div>
-              <span className="text-xs font-mono text-ash font-medium">
+              <span className="text-xs font-mono font-extrabold text-slateContrast-900 dark:text-slateContrast-100">
                 By {article.author.displayName || `@${article.author.handle}`}
               </span>
             </div>
           </div>
 
           {/* Full Article Content */}
-          <div className="prose prose-invert max-w-none text-parchment/90 leading-relaxed font-sans space-y-4 whitespace-pre-wrap text-base sm:text-lg">
+          <div className="max-w-none text-slateContrast-800 dark:text-slateContrast-200 leading-relaxed font-sans font-medium space-y-4 whitespace-pre-wrap text-base sm:text-lg">
             {article.content}
           </div>
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 border-t border-white/10 bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-ash font-mono">Turn this article into a discussion pod?</p>
+        <div className="p-4 border-t border-slateContrast-300/30 dark:border-navy-400/20 glass-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">Turn this article into a discussion pod?</p>
           <button
             onClick={() => { onClose(); onSpawnPod(article); }}
-            className="w-full sm:w-auto px-6 py-2.5 bg-sage-signal text-ink-deep font-bold text-xs rounded-full hover:bg-white transition-colors flex items-center justify-center gap-1.5 shadow-lg"
+            className="w-full sm:w-auto px-6 py-2.5 bg-crimson-700 text-white font-bold text-xs rounded-full hover:bg-crimson-900 transition-colors flex items-center justify-center gap-1.5 shadow-lg interactive-scale"
           >
             <Sparkles size={14} /> Spawn Pod from Article →
           </button>
@@ -127,26 +127,26 @@ function CreateArticleModal({ onClose, onArticleCreated }) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-2xl glass-panel rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl my-auto space-y-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-2xl glass-3 rounded-3xl p-6 sm:p-8 border border-slateContrast-300/40 dark:border-navy-400/30 shadow-2xl my-auto space-y-6 max-h-[90vh] overflow-y-auto"
       >
         <div className="flex justify-between items-center">
-          <h2 className="font-serif text-2xl text-parchment flex items-center gap-2">
-            <PenTool size={20} className="text-philosophy-gold" /> Write Long-Form Article
+          <h2 className="font-serif text-2xl text-slateContrast-900 dark:text-slateContrast-50 font-extrabold flex items-center gap-2">
+            <PenTool size={20} className="text-crimson-700 dark:text-crimson-400" /> Write Long-Form Article
           </h2>
-          <button onClick={onClose} className="text-ash hover:text-white"><X size={20} /></button>
+          <button onClick={onClose} className="text-slateContrast-700 dark:text-slateContrast-300 font-bold"><X size={20} /></button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-mono uppercase text-ash mb-2">Topic Vertical</label>
+            <label className="block text-xs font-mono uppercase font-bold text-slateContrast-700 dark:text-slateContrast-300 mb-2">Topic Vertical</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {topics.map(t => (
                 <button
                   key={t.id}
                   type="button"
                   onClick={() => setTopicId(t.id)}
-                  className={`p-2.5 rounded-xl border text-xs font-mono text-center transition-all ${
-                    topicId === t.id ? 'border-white/40 bg-white/15 text-parchment font-bold' : 'border-white/10 text-ash hover:bg-white/5'
+                  className={`p-2.5 rounded-xl border text-xs font-mono font-bold text-center transition-all ${
+                    topicId === t.id ? 'border-crimson-700 bg-crimson-700 text-white shadow-md' : 'border-slateContrast-300/40 dark:border-navy-400/30 text-slateContrast-800 dark:text-slateContrast-200 hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {t.name}
@@ -156,26 +156,26 @@ function CreateArticleModal({ onClose, onArticleCreated }) {
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase text-ash mb-2">Article Title</label>
+            <label className="block text-xs font-mono uppercase font-bold text-slateContrast-700 dark:text-slateContrast-300 mb-2">Article Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. On the Quiet Decay of Digital Public Squares"
               required
-              className="w-full glass-input rounded-xl p-3 text-sm"
+              className="w-full glass-input rounded-xl p-3 text-sm font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase text-ash mb-2">Cover Image (Optional)</label>
+            <label className="block text-xs font-mono uppercase font-bold text-slateContrast-700 dark:text-slateContrast-300 mb-2">Cover Image (Optional)</label>
             {coverPreview ? (
-              <div className="relative h-32 rounded-xl overflow-hidden border border-white/10">
+              <div className="relative h-32 rounded-xl overflow-hidden border border-slateContrast-300/30 dark:border-navy-400/20">
                 <img src={coverPreview} alt="" className="w-full h-full object-cover" />
-                <button type="button" onClick={() => { setCoverFile(null); setCoverPreview(''); }} className="absolute top-2 right-2 p-1 bg-black/60 text-ash hover:text-white rounded-full"><X size={14} /></button>
+                <button type="button" onClick={() => { setCoverFile(null); setCoverPreview(''); }} className="absolute top-2 right-2 p-1 bg-black/60 text-white rounded-full"><X size={14} /></button>
               </div>
             ) : (
-              <label className="border border-dashed border-white/15 rounded-xl p-4 flex items-center justify-center gap-2 cursor-pointer hover:bg-white/5 transition-all text-xs font-mono text-ash">
+              <label className="border border-dashed border-slateContrast-400/40 dark:border-navy-400/30 rounded-xl p-4 flex items-center justify-center gap-2 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-all text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">
                 <ImagePlus size={18} /> Upload Banner Image
                 <input type="file" accept="image/*" onChange={handleCoverSelect} className="hidden" />
               </label>
@@ -183,21 +183,21 @@ function CreateArticleModal({ onClose, onArticleCreated }) {
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase text-ash mb-2">Full Article Body</label>
+            <label className="block text-xs font-mono uppercase font-bold text-slateContrast-700 dark:text-slateContrast-300 mb-2">Full Article Body</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write your full long-form thoughts here..."
               rows={8}
               required
-              className="w-full glass-input rounded-xl p-3 text-sm leading-relaxed"
+              className="w-full glass-input rounded-xl p-3 text-sm font-medium leading-relaxed"
             />
           </div>
 
           <button
             type="submit"
             disabled={submitting || imageUploading || !topicId || !title || !content}
-            className="w-full py-3 bg-parchment text-ink-deep font-bold text-xs rounded-xl hover:bg-white transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-slateContrast-900 text-white dark:bg-slateContrast-50 dark:text-slateContrast-900 font-bold text-xs rounded-xl hover:opacity-90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
           >
             {submitting || imageUploading ? <Loader2 className="animate-spin" size={16} /> : 'Publish Article →'}
           </button>
@@ -213,16 +213,16 @@ export default function ArticlesView({ onSpawnPodFromArticle, currentUser }) {
   const [showWriteModal, setShowWriteModal] = useState(false);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-32 md:pb-24">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-xs font-mono uppercase tracking-widest text-philosophy-gold flex items-center gap-1.5 mb-1">
+          <span className="text-xs font-mono uppercase tracking-widest text-crimson-700 dark:text-crimson-400 font-extrabold flex items-center gap-1.5 mb-1">
             <BookOpen size={14} /> Long-Form Publications
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-parchment">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-slateContrast-900 dark:text-slateContrast-50 font-extrabold">
             Articles & Essays
           </h1>
-          <p className="text-ash text-sm sm:text-base mt-1">
+          <p className="text-slateContrast-700 dark:text-slateContrast-300 text-sm sm:text-base mt-1 font-medium">
             In-depth reflections written by community members. Read full texts or launch a pod around any essay.
           </p>
         </div>
@@ -230,7 +230,7 @@ export default function ArticlesView({ onSpawnPodFromArticle, currentUser }) {
         {currentUser && (
           <button
             onClick={() => setShowWriteModal(true)}
-            className="px-5 py-2.5 bg-parchment text-ink-deep font-semibold text-xs rounded-full hover:bg-white transition-all shadow-lg flex items-center gap-2 flex-shrink-0"
+            className="px-5 py-2.5 bg-slateContrast-900 text-white dark:bg-slateContrast-50 dark:text-slateContrast-900 font-bold text-xs rounded-full transition-all shadow-lg flex items-center gap-2 flex-shrink-0 interactive-scale"
           >
             <PenTool size={14} /> Publish Article
           </button>
@@ -238,11 +238,11 @@ export default function ArticlesView({ onSpawnPodFromArticle, currentUser }) {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-ash" size={28} /></div>
+        <div className="flex justify-center py-16"><Loader2 className="animate-spin text-slateContrast-600 dark:text-slateContrast-400" size={28} /></div>
       ) : articles.length === 0 ? (
-        <div className="text-center py-16 glass-panel rounded-3xl p-8 border border-white/10 max-w-md mx-auto">
-          <p className="text-ash font-mono text-sm mb-4">No published articles yet. Write the first essay!</p>
-          {currentUser && <button onClick={() => setShowWriteModal(true)} className="text-xs font-mono text-sage-signal underline">Write Article</button>}
+        <div className="text-center py-16 glass-2 rounded-3xl p-8 border border-slateContrast-300/40 dark:border-navy-400/30 max-w-md mx-auto">
+          <p className="text-slateContrast-800 dark:text-slateContrast-200 font-mono text-sm font-bold mb-4">No published articles yet. Write the first essay!</p>
+          {currentUser && <button onClick={() => setShowWriteModal(true)} className="text-xs font-mono font-bold text-crimson-700 dark:text-navy-300 underline">Write Article</button>}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -253,30 +253,30 @@ export default function ArticlesView({ onSpawnPodFromArticle, currentUser }) {
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ y: -3 }}
               onClick={() => setSelectedArticle(article)}
-              className="glass-panel rounded-3xl overflow-hidden border border-white/10 shadow-xl cursor-pointer flex flex-col justify-between group transition-all"
+              className="glass-2 rounded-3xl overflow-hidden border border-slateContrast-300/40 dark:border-navy-400/25 shadow-xl cursor-pointer flex flex-col justify-between group transition-all"
             >
               {article.coverImageUrl && (
-                <div className="h-40 w-full relative overflow-hidden bg-black/40 border-b border-white/10">
+                <div className="h-40 w-full relative overflow-hidden bg-black/30 border-b border-slateContrast-300/20 dark:border-navy-400/10">
                   <img src={article.coverImageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
               )}
 
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-white/10 bg-black/30 font-semibold" style={{ color: article.topic?.accent_hex || '#8B9490' }}>
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-slateContrast-400/30 dark:border-navy-400/20 bg-black/5 dark:bg-white/10 font-bold" style={{ color: article.topic?.accent_hex || '#c1121f' }}>
                     {article.topic?.name}
                   </span>
-                  <h3 className="font-serif text-xl text-parchment font-medium mt-3 group-hover:text-white transition-colors line-clamp-2">
+                  <h3 className="font-serif text-xl text-slateContrast-900 dark:text-slateContrast-50 font-bold mt-3 group-hover:text-crimson-700 dark:group-hover:text-crimson-400 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-ash text-xs line-clamp-3 leading-relaxed mt-2 font-sans">
+                  <p className="text-slateContrast-700 dark:text-slateContrast-300 text-xs line-clamp-3 leading-relaxed mt-2 font-sans font-medium">
                     {article.excerpt}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-ash">
+                <div className="pt-3 border-t border-slateContrast-300/30 dark:border-navy-400/20 flex items-center justify-between text-xs font-mono font-bold text-slateContrast-700 dark:text-slateContrast-300">
                   <span>By {article.author.displayName || `@${article.author.handle}`}</span>
-                  <span className="text-sage-signal flex items-center gap-1 group-hover:translate-x-1 transition-transform">Read Essay <ArrowRight size={13} /></span>
+                  <span className="text-crimson-700 dark:text-crimson-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">Read Essay <ArrowRight size={13} /></span>
                 </div>
               </div>
             </motion.div>
