@@ -3,48 +3,48 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Mode Default - High Contrast (#0d1b2a, #1b263b, #415a77, #778da9, #e0e1dd) */
-  --hf-bg-base: #0d1b2a;
-  --hf-bg-mesh-1: rgba(27, 38, 59, 0.85);
-  --hf-bg-mesh-2: rgba(65, 90, 119, 0.35);
-  --hf-bg-mesh-3: rgba(119, 141, 169, 0.20);
-  --hf-text-primary: #f8fafc;
-  --hf-text-secondary: #cbd5e1;
-  --hf-text-muted: #94a3b8;
-  --hf-accent: #669bbc;
-  --hf-accent-glow: rgba(102, 155, 188, 0.35);
-  --hf-glass-border: rgba(255, 255, 255, 0.16);
-  --hf-glass-bg-1: rgba(27, 38, 59, 0.55);
-  --hf-glass-bg-2: rgba(27, 38, 59, 0.75);
-  --hf-glass-bg-3: rgba(13, 27, 42, 0.88);
-  --hf-glass-bg-4: rgba(13, 27, 42, 0.96);
-  --hf-shadow: rgba(0, 0, 0, 0.65);
+  /* Dark Mode Default - Pure High Contrast White on Dark Navy */
+  --hf-bg-base: #0a1118;
+  --hf-bg-mesh-1: rgba(13, 27, 42, 0.90);
+  --hf-bg-mesh-2: rgba(27, 38, 59, 0.40);
+  --hf-bg-mesh-3: rgba(65, 90, 119, 0.25);
+  --hf-text-primary: #ffffff;
+  --hf-text-secondary: #e2e8f0;
+  --hf-text-muted: #cbd5e1;
+  --hf-accent: #ffffff;
+  --hf-accent-glow: rgba(255, 255, 255, 0.25);
+  --hf-glass-border: rgba(255, 255, 255, 0.15);
+  --hf-glass-bg-1: rgba(27, 38, 59, 0.60);
+  --hf-glass-bg-2: rgba(27, 38, 59, 0.80);
+  --hf-glass-bg-3: rgba(13, 27, 42, 0.90);
+  --hf-glass-bg-4: rgba(10, 17, 24, 0.96);
+  --hf-shadow: rgba(0, 0, 0, 0.70);
 }
 
 html.light {
-  /* Light Mode Palette - Ultra High Contrast (#780000, #c1121f, #fdf0d5, #003049, #669bbc) */
+  /* Light Mode Palette - Pure High Contrast Black on Light Cream */
   --hf-bg-base: #fdf0d5;
   --hf-bg-mesh-1: rgba(253, 240, 213, 0.98);
-  --hf-bg-mesh-2: rgba(102, 155, 188, 0.20);
-  --hf-bg-mesh-3: rgba(193, 18, 31, 0.12);
-  --hf-text-primary: #003049;
-  --hf-text-secondary: #1e293b;
-  --hf-text-muted: #334155;
-  --hf-accent: #c1121f;
-  --hf-accent-glow: rgba(193, 18, 31, 0.25);
-  --hf-glass-border: rgba(0, 48, 73, 0.24);
-  --hf-glass-bg-1: rgba(255, 255, 255, 0.75);
-  --hf-glass-bg-2: rgba(255, 255, 255, 0.88);
-  --hf-glass-bg-3: rgba(253, 240, 213, 0.94);
+  --hf-bg-mesh-2: rgba(230, 210, 170, 0.40);
+  --hf-bg-mesh-3: rgba(200, 180, 140, 0.25);
+  --hf-text-primary: #000000;
+  --hf-text-secondary: #111827;
+  --hf-text-muted: #374151;
+  --hf-accent: #000000;
+  --hf-accent-glow: rgba(0, 0, 0, 0.20);
+  --hf-glass-border: rgba(0, 0, 0, 0.15);
+  --hf-glass-bg-1: rgba(255, 255, 255, 0.80);
+  --hf-glass-bg-2: rgba(255, 255, 255, 0.92);
+  --hf-glass-bg-3: rgba(253, 240, 213, 0.96);
   --hf-glass-bg-4: rgba(253, 240, 213, 0.98);
-  --hf-shadow: rgba(0, 48, 73, 0.16);
+  --hf-shadow: rgba(0, 0, 0, 0.12);
 }
 
 @layer base {
   html, body {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   body {
@@ -62,12 +62,17 @@ html.light {
 
   input, textarea, select {
     font-size: 16px !important;
-    color: var(--hf-text-primary);
+    color: var(--hf-text-primary) !important;
   }
 
-  ::placeholder {
-    color: var(--hf-text-muted) !important;
-    opacity: 0.9;
+  /* Force 100% readable placeholder colors */
+  html.light ::placeholder {
+    color: #4b5563 !important;
+    opacity: 1 !important;
+  }
+  html.dark ::placeholder {
+    color: #cbd5e1 !important;
+    opacity: 1 !important;
   }
 
   ::-webkit-scrollbar {
@@ -84,8 +89,6 @@ html.light {
 }
 
 /* Apple HIG 4-Level Glass Material System */
-
-/* Level 1: Ultra Thin (Tooltips, popovers, subtle floating tags) */
 .glass-1 {
   background: var(--hf-glass-bg-1);
   backdrop-filter: blur(14px) saturate(1.5);
@@ -94,26 +97,23 @@ html.light {
   box-shadow: 0 4px 16px var(--hf-shadow);
 }
 
-/* Level 2: Thin (Cards, list items, secondary widgets) */
 .glass-2, .glass-card {
   background: var(--hf-glass-bg-2);
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid var(--hf-glass-border);
-  box-shadow: 0 8px 28px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 8px 28px var(--hf-shadow);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
 
-/* Level 3: Regular Material (Main sidebars, hero panels, modals) */
 .glass-3, .glass-panel {
   background: var(--hf-glass-bg-3);
   backdrop-filter: blur(32px) saturate(1.7);
   -webkit-backdrop-filter: blur(32px) saturate(1.7);
   border: 1px solid var(--hf-glass-border);
-  box-shadow: 0 20px 50px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 50px var(--hf-shadow);
 }
 
-/* Level 4: Thick Material (Navigation bar, sticky header/footer, mobile tab bar) */
 .glass-4 {
   background: var(--hf-glass-bg-4);
   backdrop-filter: blur(40px) saturate(1.8);
@@ -127,12 +127,12 @@ html.light {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--hf-glass-border);
-  color: var(--hf-text-primary);
+  color: var(--hf-text-primary) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-input:focus {
-  border-color: var(--hf-accent);
+  border-color: var(--hf-text-primary);
   box-shadow: 0 0 0 3px var(--hf-accent-glow);
   outline: none;
   background: var(--hf-glass-bg-2);
@@ -153,7 +153,6 @@ html.light {
   touch-action: none;
 }
 
-/* Micro-Interaction Utilities */
 .interactive-scale {
   transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
 }
