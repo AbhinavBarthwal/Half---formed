@@ -3,46 +3,48 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Mode Default (Navy Steel Palette: #0d1b2a, #1b263b, #415a77, #778da9, #e0e1dd) */
+  /* Dark Mode Default - High Contrast (#0d1b2a, #1b263b, #415a77, #778da9, #e0e1dd) */
   --hf-bg-base: #0d1b2a;
   --hf-bg-mesh-1: rgba(27, 38, 59, 0.85);
-  --hf-bg-mesh-2: rgba(65, 90, 119, 0.45);
-  --hf-bg-mesh-3: rgba(119, 141, 169, 0.25);
-  --hf-text-primary: #e0e1dd;
-  --hf-text-secondary: #778da9;
-  --hf-accent: #415a77;
-  --hf-accent-glow: rgba(119, 141, 169, 0.35);
-  --hf-glass-border: rgba(224, 225, 221, 0.14);
-  --hf-glass-bg-1: rgba(27, 38, 59, 0.45);
-  --hf-glass-bg-2: rgba(27, 38, 59, 0.65);
-  --hf-glass-bg-3: rgba(13, 27, 42, 0.78);
-  --hf-glass-bg-4: rgba(13, 27, 42, 0.90);
-  --hf-shadow: rgba(0, 0, 0, 0.55);
+  --hf-bg-mesh-2: rgba(65, 90, 119, 0.35);
+  --hf-bg-mesh-3: rgba(119, 141, 169, 0.20);
+  --hf-text-primary: #f8fafc;
+  --hf-text-secondary: #cbd5e1;
+  --hf-text-muted: #94a3b8;
+  --hf-accent: #669bbc;
+  --hf-accent-glow: rgba(102, 155, 188, 0.35);
+  --hf-glass-border: rgba(255, 255, 255, 0.16);
+  --hf-glass-bg-1: rgba(27, 38, 59, 0.55);
+  --hf-glass-bg-2: rgba(27, 38, 59, 0.75);
+  --hf-glass-bg-3: rgba(13, 27, 42, 0.88);
+  --hf-glass-bg-4: rgba(13, 27, 42, 0.96);
+  --hf-shadow: rgba(0, 0, 0, 0.65);
 }
 
 html.light {
-  /* Light Mode Palette (Crimson Cream Palette: #780000, #c1121f, #fdf0d5, #003049, #669bbc) */
+  /* Light Mode Palette - Ultra High Contrast (#780000, #c1121f, #fdf0d5, #003049, #669bbc) */
   --hf-bg-base: #fdf0d5;
-  --hf-bg-mesh-1: rgba(253, 240, 213, 0.95);
-  --hf-bg-mesh-2: rgba(102, 155, 188, 0.25);
-  --hf-bg-mesh-3: rgba(193, 18, 31, 0.15);
+  --hf-bg-mesh-1: rgba(253, 240, 213, 0.98);
+  --hf-bg-mesh-2: rgba(102, 155, 188, 0.20);
+  --hf-bg-mesh-3: rgba(193, 18, 31, 0.12);
   --hf-text-primary: #003049;
-  --hf-text-secondary: #669bbc;
+  --hf-text-secondary: #1e293b;
+  --hf-text-muted: #334155;
   --hf-accent: #c1121f;
   --hf-accent-glow: rgba(193, 18, 31, 0.25);
-  --hf-glass-border: rgba(0, 48, 73, 0.16);
-  --hf-glass-bg-1: rgba(253, 240, 213, 0.60);
-  --hf-glass-bg-2: rgba(253, 240, 213, 0.78);
-  --hf-glass-bg-3: rgba(253, 240, 213, 0.88);
-  --hf-glass-bg-4: rgba(253, 240, 213, 0.95);
-  --hf-shadow: rgba(0, 48, 73, 0.12);
+  --hf-glass-border: rgba(0, 48, 73, 0.24);
+  --hf-glass-bg-1: rgba(255, 255, 255, 0.75);
+  --hf-glass-bg-2: rgba(255, 255, 255, 0.88);
+  --hf-glass-bg-3: rgba(253, 240, 213, 0.94);
+  --hf-glass-bg-4: rgba(253, 240, 213, 0.98);
+  --hf-shadow: rgba(0, 48, 73, 0.16);
 }
 
 @layer base {
   html, body {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
@@ -60,6 +62,12 @@ html.light {
 
   input, textarea, select {
     font-size: 16px !important;
+    color: var(--hf-text-primary);
+  }
+
+  ::placeholder {
+    color: var(--hf-text-muted) !important;
+    opacity: 0.9;
   }
 
   ::-webkit-scrollbar {
@@ -80,8 +88,8 @@ html.light {
 /* Level 1: Ultra Thin (Tooltips, popovers, subtle floating tags) */
 .glass-1 {
   background: var(--hf-glass-bg-1);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
   border: 1px solid var(--hf-glass-border);
   box-shadow: 0 4px 16px var(--hf-shadow);
 }
@@ -89,20 +97,20 @@ html.light {
 /* Level 2: Thin (Cards, list items, secondary widgets) */
 .glass-2, .glass-card {
   background: var(--hf-glass-bg-2);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid var(--hf-glass-border);
-  box-shadow: 0 8px 28px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 28px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 /* Level 3: Regular Material (Main sidebars, hero panels, modals) */
 .glass-3, .glass-panel {
   background: var(--hf-glass-bg-3);
-  backdrop-filter: blur(32px) saturate(1.6);
-  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  backdrop-filter: blur(32px) saturate(1.7);
+  -webkit-backdrop-filter: blur(32px) saturate(1.7);
   border: 1px solid var(--hf-glass-border);
-  box-shadow: 0 20px 50px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px var(--hf-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* Level 4: Thick Material (Navigation bar, sticky header/footer, mobile tab bar) */
@@ -145,104 +153,7 @@ html.light {
   touch-action: none;
 }
 
-/* ============================================================
-   10+ Named Animation & Micro-Interaction Utilities (HIG Compliant)
-   ============================================================ */
-
-/* 1. Levitation Float */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* 2. Glow Pulse */
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 15px var(--hf-accent-glow); }
-  50% { box-shadow: 0 0 30px var(--hf-accent-glow), 0 0 45px var(--hf-accent-glow); }
-}
-.animate-glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-/* 3. Shimmer Sweep */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2.5s infinite;
-}
-
-/* 4. Entrance Up (Spring Slide) */
-@keyframes entrance-up {
-  0% { opacity: 0; transform: translateY(20px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-.animate-entrance-up {
-  animation: entrance-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 5. Entrance Scale & Blur */
-@keyframes entrance-scale {
-  0% { opacity: 0; transform: scale(0.92); filter: blur(10px); }
-  100% { opacity: 1; transform: scale(1); filter: blur(0); }
-}
-.animate-entrance-scale {
-  animation: entrance-scale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 6. Soft Bounce Interaction */
-@keyframes bounce-soft {
-  0%, 100% { transform: scale(1); }
-  40% { transform: scale(0.95); }
-  70% { transform: scale(1.03); }
-}
-.animate-bounce-soft {
-  animation: bounce-soft 0.3s ease-in-out;
-}
-
-/* 7. Spin Slow */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.animate-spin-slow {
-  animation: spin-slow 12s linear infinite;
-}
-
-/* 8. Slide In Right */
-@keyframes slide-in-right {
-  0% { opacity: 0; transform: translateX(30px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-.animate-slide-in-right {
-  animation: slide-in-right 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 9. Blur Fade In */
-@keyframes blur-in {
-  0% { opacity: 0; filter: blur(16px); }
-  100% { opacity: 1; filter: blur(0); }
-}
-.animate-blur-in {
-  animation: blur-in 0.4s ease-out forwards;
-}
-
-/* 10. Border Light Pulse */
-@keyframes border-glow {
-  0%, 100% { border-color: var(--hf-glass-border); }
-  50% { border-color: var(--hf-accent); }
-}
-.animate-border-glow {
-  animation: border-glow 3s ease-in-out infinite;
-}
-
-/* Button & Interactive Scale Micro-Feedback */
+/* Micro-Interaction Utilities */
 .interactive-scale {
   transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
 }
