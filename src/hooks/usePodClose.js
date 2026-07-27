@@ -4,10 +4,10 @@ import { supabase } from '../lib/supabase.js';
 export function usePodClose() {
   const [closing, setClosing] = useState(false);
 
-  const closePod = async (podId, closingStatement) => {
+  const closePod = async (podId, closingStatement, consensusPoints = [], divergencePoints = [], keyThreads = []) => {
     setClosing(true);
     try {
-      // Try setting status to 'fully_formed' first
+      // 1. Set pod status to fully_formed (or fallback to archived)
       let { error } = await supabase
         .from('pods')
         .update({
@@ -31,6 +31,23 @@ export function usePodClose() {
       }
 
       if (error) throw error;
+
+      // 2. Upsert into archive_summaries
+      const { error: summaryErr } = await supabase
+        .from('archive_summaries')
+        .upsert({
+          pod_id: podId,
+          summary_text: closingStatement,
+          consensus_points: consensusPoints.length > 0 ? consensusPoints : [closingStatement],
+          divergence_points: divergencePoints,
+          key_threads: keyThreads,
+          generated_at: new Date().toISOString(),
+        });
+
+      if (summaryErr) {
+        console.warn('Could not save archive_summary record:', summaryErr.message);
+      }
+
       setClosing(false);
     } catch (err) {
       setClosing(false);

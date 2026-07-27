@@ -15,6 +15,8 @@ export default function PodRoomView({ pod, user, onBack }) {
   const [showMobileMembers, setShowMobileMembers] = useState(false);
   const [showGraduateModal, setShowGraduateModal] = useState(false);
   const [closingStatement, setClosingStatement] = useState('');
+  const [consensusInput, setConsensusInput] = useState('');
+  const [divergenceInput, setDivergenceInput] = useState('');
 
   // Poll state
   const [pollQuestion, setPollQuestion] = useState('');
@@ -91,8 +93,24 @@ export default function PodRoomView({ pod, user, onBack }) {
   const handleGraduatePodSubmit = async (e) => {
     e.preventDefault();
     if (!closingStatement.trim()) return;
+
+    const consensusPoints = consensusInput
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const divergencePoints = divergenceInput
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
     try {
-      await closePod(pod.id, closingStatement.trim());
+      await closePod(
+        pod.id,
+        closingStatement.trim(),
+        consensusPoints.length > 0 ? consensusPoints : [closingStatement.trim()],
+        divergencePoints
+      );
       pod.status = 'fully_formed';
       pod.closingStatement = closingStatement.trim();
       setShowGraduateModal(false);
@@ -478,25 +496,50 @@ export default function PodRoomView({ pod, user, onBack }) {
               </div>
 
               <p className="text-xs text-ash leading-relaxed">
-                Has the central question of this pod been sufficiently explored? Write a brief closing statement summarizing the collective consensus or key divergence.
+                Has the central question of this pod been sufficiently explored? Summarize the main conclusion, key agreements, and remaining points of divergence before preserving the pod.
               </p>
 
-              <form onSubmit={handleGraduatePodSubmit} className="space-y-4">
-                <textarea
-                  value={closingStatement}
-                  onChange={(e) => setClosingStatement(e.target.value)}
-                  placeholder="e.g. We realized that isolation in suburbs stems not from physical layout alone, but from missing third-places..."
-                  rows={4}
-                  required
-                  className="glass-input w-full rounded-2xl p-3.5 text-sm leading-relaxed"
-                />
+              <form onSubmit={handleGraduatePodSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+                <div>
+                  <label className="text-xs font-mono font-bold text-parchment block mb-1">Overall Summary / Conclusion *</label>
+                  <textarea
+                    value={closingStatement}
+                    onChange={(e) => setClosingStatement(e.target.value)}
+                    placeholder="e.g. We realized that suburban isolation stems not from physical layout alone, but missing third-places..."
+                    rows={3}
+                    required
+                    className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono font-bold text-sage-signal block mb-1">Points of Consensus (One per line)</label>
+                  <textarea
+                    value={consensusInput}
+                    onChange={(e) => setConsensusInput(e.target.value)}
+                    placeholder="e.g. Third-places are vital for community resilience&#10;Digital feeds cannot replace local physical proximity"
+                    rows={2}
+                    className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono font-bold text-dusk-lavender block mb-1">Points of Divergence (One per line)</label>
+                  <textarea
+                    value={divergenceInput}
+                    onChange={(e) => setDivergenceInput(e.target.value)}
+                    placeholder="e.g. Whether remote work accelerates or heals urban loneliness&#10;Role of public funding vs grassroots initiatives"
+                    rows={2}
+                    className="glass-input w-full rounded-xl p-3 text-xs leading-relaxed"
+                  />
+                </div>
 
                 <button
                   type="submit"
                   disabled={closing || !closingStatement.trim()}
                   className="w-full py-3.5 bg-philosophy-gold text-ink-deep font-bold text-xs rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2 shadow-xl disabled:opacity-50"
                 >
-                  {closing ? <Loader2 className="animate-spin" size={16} /> : 'Graduate & Preserve Pod →'}
+                  {closing ? <Loader2 className="animate-spin" size={16} /> : 'Graduate & Preserve Summary →'}
                 </button>
               </form>
             </motion.div>

@@ -166,8 +166,10 @@ create policy "Users can remove own reactions"
 -- 7. ARCHIVE SUMMARIES
 -- ============================================================
 create table if not exists archive_summaries (
-  pod_id uuid primary key references pods(id),
+  pod_id uuid primary key references pods(id) on delete cascade,
   summary_text text not null,
+  consensus_points jsonb,
+  divergence_points jsonb,
   key_threads jsonb,
   generated_at timestamptz default now()
 );
@@ -176,6 +178,12 @@ alter table archive_summaries enable row level security;
 
 create policy "Archive summaries are publicly readable"
   on archive_summaries for select using (true);
+
+create policy "Authenticated users can insert archive summaries"
+  on archive_summaries for insert with check (auth.uid() is not null);
+
+create policy "Authenticated users can update archive summaries"
+  on archive_summaries for update using (auth.uid() is not null);
 
 
 -- ============================================================
